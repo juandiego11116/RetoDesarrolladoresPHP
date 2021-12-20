@@ -21,12 +21,27 @@ class RegistrationTest extends TestCase
     {
         $response = $this->post('/register', [
             'name' => 'Test User',
+            'lastName' => 'Test',
+            'document_type' => 'cc',
+            'document' => '1010101010',
+            'country' => 'Colombia',
+            'address' => 'Calle',
+            'phoneNumber' => '3200000000',
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
         ]);
 
-        $this->assertAuthenticated();
+        $this->assertDatabaseHas('users', [
+            'name' => 'Test User',
+            'lastName' => 'Test',
+            'document_type' => 'cc',
+            'document' => '1010101010',
+            'country' => 'Colombia',
+            'address' => 'Calle',
+            'phoneNumber' => '3200000000',
+            'email' => 'test@example.com',
+        ]);
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 }

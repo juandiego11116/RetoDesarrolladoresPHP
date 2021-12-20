@@ -1,56 +1,68 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends('layouts.auth_app')
+@section('title')
+    Admin Login
+@endsection
+@section('content')
+    <div class="card card-primary">
+        <div class="card-header"><h4>Admin Login</h4></div>
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-            </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
+        <div class="card-body">
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                @if ($errors->any())
+                    <div class="alert alert-danger p-0">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input aria-describedby="emailHelpBlock" id="email" type="email"
+                           class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
+                           placeholder="Enter Email" tabindex="1"
+                           value="{{ (Cookie::get('email') !== null) ? Cookie::get('email') : old('email') }}" autofocus
+                           required>
+                    <div class="invalid-feedback">
+                        {{ $errors->first('email') }}
+                    </div>
+                </div>
 
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+                <div class="form-group">
+                    <div class="d-block">
+                        <label for="password" class="control-label">Password</label>
+                        <div class="float-right">
+                            <a href="{{ route('password.request') }}" class="text-small">
+                                Forgot Password?
+                            </a>
+                        </div>
+                    </div>
+                    <input aria-describedby="passwordHelpBlock" id="password" type="password"
+                           value="{{ (Cookie::get('password') !== null) ? Cookie::get('password') : null }}"
+                           placeholder="Enter Password"
+                           class="form-control{{ $errors->has('password') ? ' is-invalid': '' }}" name="password"
+                           tabindex="2" required>
+                    <div class="invalid-feedback">
+                        {{ $errors->first('password') }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="remember" class="custom-control-input" tabindex="3"
+                               id="remember"{{ (Cookie::get('remember') !== null) ? 'checked' : '' }}>
+                        <label class="custom-control-label" for="remember">Remember Me</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection
