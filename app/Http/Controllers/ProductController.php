@@ -7,19 +7,18 @@ use App\Models\product;
 
 class ProductController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('permission:showProduct | createProduct | editProduct | deleteProduct', ['only'=>['index']]);
         $this->middleware('permission:createProduct', ['only'=>['create','store']]);
         $this->middleware('permission:editProduct', ['only'=>['edit','update']]);
         $this->middleware('permission:deleteProduct', ['only'=>['destroy']]);
-
     }
 
     public function index()
     {
-        $product = product::paginate(5);
-        return view('products.index');
+        $products = product::paginate(5);
+        return view('products.index', compact('products'));
     }
 
     /**
@@ -43,7 +42,8 @@ class ProductController extends Controller
         request()->validate([
             'name' => 'required',
             'price' => 'required',
-            'stock' => 'required',
+            'stock_number' => 'required',
+            'category' => 'required',
             'description' => 'required',
             'photo' => 'required',
         ]);
@@ -51,43 +51,27 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-
     public function edit(product $product)
     {
         return view('products.edit', compact('product'));
     }
 
-   public function update(Request $request, product $product)
+    public function update(Request $request, product $products)
     {
         request()->validate([
             'name' => 'required',
             'price' => 'required',
-            'stock' => 'required',
+            'stock_number' => 'required',
+            'category' => 'required',
             'description' => 'required',
             'photo' => 'required',
         ]);
-        $product->update($request->all());
-        return redirect()->route('products.index');
 
+        $products->update($request->all());
+        return redirect()->route('products.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(product $product)
     {
         $product->delete();
