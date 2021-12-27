@@ -21,12 +21,12 @@ class User extends Authenticatable implements MustVerifyEmail
     //const document_type = array('CC', 'TI', 'PAS');
     protected $fillable = [
         'name',
-        'lastName',
+        'last_name',
         'document_type',
         'document',
         'country',
         'address',
-        'phoneNumber',
+        'phone_number',
         'email',
         'password',
     ];
