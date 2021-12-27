@@ -10,38 +10,40 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            @can('createRole')
-                                <a class="btn btn-warning" href="{{ route('roles.create') }}">New</a>
+
+                            @can('create-rol')
+                                <a class="btn btn-warning" href="{{ route('roles.create') }}">new</a>
                             @endcan
-                                <table class="table table-striped mt-2">
-                                    <thead style="background-color: #6777ef">
-                                    <tr style="color: #fff;">Role</tr>
-                                    <tr style="color: #fff;">Actions</tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($roles as $role)
-                                        <tr>
-                                            <td style="display: none;">{{$role->name}}</td>
-                                            <td>
-                                                @can('editRole')
-                                                    <a class="btn btn-primary" href="{{route('roles.edit', $role->id)}}">Edit</a>
-                                                @endcan
-                                                @can()
-                                                @endcan()
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-info" href="{{ route('users.edit', $user->id) }}">Edit</a>
-                                            </td>
-                                            {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
-                                            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                            {!! Form::close() !!}
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                                <div class="pagination justify-content-end">
-                                    {!! $user->links() !!}
-                                </div>
+
+
+                            <table class="table table-striped mt-2">
+                                <thead style="background-color:#6777ef">
+                                <th style="color:#fff;">Role</th>
+                                <th style="color:#fff;">Actions</th>
+                                </thead>
+                                <tbody>
+                                @foreach ($roles as $role)
+                                    <tr>
+                                        <td>{{ $role->name }}</td>
+                                        <td>
+                                            @can('edit-rol')
+                                                <a class="btn btn-primary" href="{{ route('roles.edit',$role->id) }}">Edit</a>
+                                            @endcan
+
+                                            @can('delete-rol')
+                                                {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
+                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                                {!! Form::close() !!}
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+
+                            <div class="pagination justify-content-end">
+                                {!! $roles->links() !!}
+                            </div>
                         </div>
                     </div>
                 </div>

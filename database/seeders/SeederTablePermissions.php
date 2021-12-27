@@ -27,7 +27,7 @@ class SeederTablePermissions extends Seeder
             'deleteProduct',
 
         ];
-        foreach ($permissions as $permission){
+        foreach ($permissions as $permission) {
             Permission::create(['name'=>$permission]);
         }
     }

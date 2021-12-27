@@ -11,15 +11,15 @@
                     <div class="card">
                         <div class="card-body">
                             <h3 class="text-center">Users</h3>
-                            <a class="btn btn-warning" href="{{route('users.create')}}"></a>
+                            <a class="btn btn-warning" href="{{route('users.create')}}">New</a>
                             <table class="table table-striped mt-2">
-                                <thead style="background-color: #6777ef;">
-                                <tr style="display: none;">ID</tr>
-                                <tr style="color: #fff;">First Name</tr>
-                                <tr style="color: #fff;">Last Name</tr>
-                                <tr style="color: #fff;">Email</tr>
-                                <tr style="color: #fff;">Role</tr>
-                                <tr style="color: #fff;">Actions</tr>
+                                <thead style="background-color:#6777ef">
+                                <th style="display: none;">ID</th>
+                                <th style="color:#fff;">Firts Name</th>
+                                <th style="color:#fff;">Last name</th>
+                                <th style="color:#fff;">E-mail</th>
+                                <th style="color:#fff;">Role</th>
+                                <th style="color:#fff;">Actions</th>
                                 </thead>
                                 <tbody>
                                     @foreach($users as $user)
@@ -37,16 +37,16 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-info" href="{{ route('users.edit', $user->id) }}">Edit</a>
-                                            </td>
-                                            {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
                                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                            {!! Form::close() !!}
+                                                {!! Form::close() !!}
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                             <div class="pagination justify-content-end">
-                                {!! $user->links() !!}
+                                {!! $users->links() !!}
                             </div>
                         </div>
                     </div>
