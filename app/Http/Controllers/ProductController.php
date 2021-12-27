@@ -3,17 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\product;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    function __construct()
+    {
+        $this->middleware('permission:showProduct | createProduct | editProduct | deleteProduct', ['only'=>['index']]);
+        $this->middleware('permission:createProduct', ['only'=>['create','store']]);
+        $this->middleware('permission:editProduct', ['only'=>['edit','update']]);
+        $this->middleware('permission:deleteProduct', ['only'=>['destroy']]);
+
+    }
+
     public function index()
     {
-        //
+        $product = product::paginate(5);
+        return view('products.index');
     }
 
     /**
@@ -23,7 +29,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
@@ -34,7 +40,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'stock' => 'required',
+            'description' => 'required',
+            'photo' => 'required',
+        ]);
+        product::create($request->all());
+        return redirect()->route('products.index');
     }
 
     /**
@@ -48,27 +62,24 @@ class ProductController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    public function edit(product $product)
     {
-        //
+        return view('products.edit', compact('product'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+   public function update(Request $request, product $product)
     {
-        //
+        request()->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'stock' => 'required',
+            'description' => 'required',
+            'photo' => 'required',
+        ]);
+        $product->update($request->all());
+        return redirect()->route('products.index');
+
     }
 
     /**
@@ -77,8 +88,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(product $product)
     {
-        //
+        $product->delete();
+        return redirect()->route('products.index');
     }
 }
