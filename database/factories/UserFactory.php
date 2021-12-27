@@ -18,7 +18,7 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'lastName' => $this->faker->lastName(),
             'document_type' => $this->faker->sentence(1),
-            'document' => $this->faker->numberBetween(0000000000,9999999999),
+            'document' => $this->faker->numberBetween(0000000000, 9999999999),
             'country' => $this->faker->country(),
             'address' => $this->faker->address(),
             'phoneNumber' => $this->faker->phoneNumber(),

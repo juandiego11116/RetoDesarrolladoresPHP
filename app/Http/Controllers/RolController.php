@@ -6,17 +6,16 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-Use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 
 class RolController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('permission:showRole | createRole | editRole | deleteRole', ['only'=>['index']]);
         $this->middleware('permission:createRole', ['only'=>['create','store']]);
         $this->middleware('permission:editRole', ['only'=>['edit','update']]);
         $this->middleware('permission:deleteRole', ['only'=>['destroy']]);
-
     }
 
     /**
@@ -26,8 +25,8 @@ class RolController extends Controller
      */
     public function index()
     {
-       $roles = Role::paginate(5);
-       return view('roles.index', compact('roles'));
+        $roles = Role::paginate(5);
+        return view('roles.index', compact('roles'));
     }
 
     /**
@@ -38,7 +37,7 @@ class RolController extends Controller
     public function create()
     {
         $permission = Permission::get();
-        return view('roles.createRole', compact('permission'));
+        return view('roles.create', compact('permission'));
     }
 
     /**
@@ -77,11 +76,11 @@ class RolController extends Controller
     {
         $role = Role::find($id);
         $permission = Permission::get();
-        $rolePermisssion = DB::table('role_has_permissions.role_id', $id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
+            ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
-        return view('roles.edit', compact('role', 'permission', 'rolePermisssion'));
 
+        return view('roles.edit', compact('role', 'permission', 'rolePermissions'));
     }
 
     /**
@@ -97,7 +96,7 @@ class RolController extends Controller
         $role = Role::find($id);
         $role->name = $request->input('name');
         $role->save();
-        $role->sycnPermissions($request->input('permission'));
+        $role->syncPermissions($request->input('permission'));
         return redirect()->route('roles.index');
     }
 
@@ -111,6 +110,5 @@ class RolController extends Controller
     {
         DB::table('roles')->where('id', $id)->delete();
         return redirect()->route('roles.index');
-
     }
 }
