@@ -10,7 +10,6 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-
                             @if ($errors->any())
                                 <div class="alert alert-dark alert-dismissible fade show" role="alert">
                                     <strong>¡Check fields!</strong>
@@ -22,16 +21,15 @@
                                     </button>
                                 </div>
                             @endif
-                                {!! Form::model($product, ['method'=>'PATCH', 'route'=>['products.update',$product->id]]) !!}
-                                @csrf
-
-                                <div class="row">
+                            {!! Form::model($product, ['method' => 'PATCH','route' => ['products.update', $product->id]]) !!}
+                               <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="photo">Photo</label>
                                             {!! Form::text('photo', null, array('class'=>'form-control')) !!}
                                         </div>
                                     </div>
+
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="name">Name</label>
@@ -60,14 +58,11 @@
                                         <div class="form-floating">
                                             <label for="description">Description</label>
                                             {!! Form::textarea('description', null, array('class'=>'form-control')) !!}
-
-
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <button type="submit" class="btn btn-primary">save</button>
                                     </div>
                                 </div>
-                                {!! Form::close() !!}
-
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>

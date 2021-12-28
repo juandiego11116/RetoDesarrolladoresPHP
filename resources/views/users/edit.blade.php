@@ -71,18 +71,7 @@
                                             {!! Form::text('email', null, array('class'=>'form-control')) !!}
                                         </div>
                                     </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <div class="form-group">
-                                            <label for="password">Password</label>
-                                            {!! Form::password('password', null, array('class'=>'form-control')) !!}
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <div class="form-group">
-                                            <label for="confirm-password">Confirm Password</label>
-                                            {!! Form::password('confirm-password', null, array('class'=>'form-control')) !!}
-                                        </div>
-                                    </div>
+
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="">Role</label>

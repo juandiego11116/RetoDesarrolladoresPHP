@@ -22,26 +22,26 @@
                                 </div>
                             @endif
                                 {!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <div class="form-group">
-                                            <label for="">Role Name:</label>
-                                            {!! Form::text('name', null, array('class' => 'form-control')) !!}
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Role Name:</label>
+                                                {!! Form::text('name', null, array('class' => 'form-control')) !!}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <div class="form-group">
-                                            <label for="">Permissions for this Role:</label>
-                                            <br/>
-                                            @foreach($permission as $value)
-                                                <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
-                                                    {{ $value->name }}</label>
+                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Permissions for this Role:</label>
                                                 <br/>
-                                            @endforeach
+                                                @foreach($permission as $value)
+                                                    <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
+                                                        {{ $value->name }}</label>
+                                                    <br/>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                 {!! Form::close() !!}
                         </div>
                     </div>
