@@ -3,15 +3,24 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h3 class="page__heading">Dashboard</h3>
+            <h3 class="page__heading">Users</h3>
         </div>
         <div class="section-body">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
+                        <div>
+                            <input class="form-control"
+                                   type="searh"
+                                   placeholder="search"
+                                   v-model="search"
+                                   @keyup="users">
+                        </div>
                         <div class="card-body">
-                            <h3 class="text-center">Users</h3>
+
+                            @can('create-user')
                             <a class="btn btn-warning" href="{{route('users.create')}}">New</a>
+                            @endcan
                             <table class="table table-striped mt-2">
                                 <thead style="background-color:#6777ef">
                                 <th style="display: none;">ID</th>
@@ -36,10 +45,14 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a class="btn btn-info" href="{{ route('users.edit', $user->id) }}">Edit</a>
-                                                {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
-                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                                {!! Form::close() !!}
+                                                @can('edit-user')
+                                                    <a class="btn btn-info" href="{{ route('users.edit', $user->id) }}">Edit</a>
+                                                @endcan
+                                                @can('delete-user')
+                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
+                                                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                                    {!! Form::close() !!}
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach
@@ -54,6 +67,11 @@
             </div>
         </div>
     </section>
+@endsection
+@section('scripts')
+
+    <script src="{{ asset('js/search.js') }}"></script>
+
 @endsection
 
 

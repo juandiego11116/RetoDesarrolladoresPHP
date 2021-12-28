@@ -10,9 +10,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-
-
-                            @can('createProduct')
+                            @can('create-product')
                                 <a class="btn btn-warning" href="{{ route('products.create') }}">New</a>
                             @endcan
 
@@ -22,6 +20,8 @@
                                 <th style="color:#fff;">Name</th>
                                 <th style="color:#fff;">Price</th>
                                 <th style="color:#fff;">Stock Number</th>
+                                <th style="color:#fff;">Category</th>
+                                <th style="color:#fff;">Actions</th>
                                 </thead>
                                 <tbody>
                                 @foreach ($products as $product)
@@ -30,15 +30,16 @@
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->price }}</td>
                                         <td>{{ $product->stock_number }}</td>
+                                        <td>{{ $product->category }}</td>
                                         <td>
                                             <form action="{{ route('products.destroy', $product->id) }}" method="POST">
-                                                @can('editProduct')
+                                                @can('edit-product')
                                                     <a class="btn btn-info" href="{{ route('products.edit', $product->id) }}">Edit</a>
                                                 @endcan
 
                                                 @csrf
                                                 @method('DELETE')
-                                                @can('deleteProduct')
+                                                @can('delete-product')
                                                     <button type="submit" class="btn btn-danger">Delete</button>
                                                 @endcan
                                             </form>

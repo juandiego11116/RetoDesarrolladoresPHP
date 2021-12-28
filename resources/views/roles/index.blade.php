@@ -11,7 +11,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            @can('create-rol')
+                            @can('create-role')
                                 <a class="btn btn-warning" href="{{ route('roles.create') }}">new</a>
                             @endcan
 
@@ -26,11 +26,11 @@
                                     <tr>
                                         <td>{{ $role->name }}</td>
                                         <td>
-                                            @can('edit-rol')
+                                            @can('edit-role')
                                                 <a class="btn btn-primary" href="{{ route('roles.edit',$role->id) }}">Edit</a>
                                             @endcan
 
-                                            @can('delete-rol')
+                                            @can('delete-role')
                                                 {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
                                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
                                                 {!! Form::close() !!}
