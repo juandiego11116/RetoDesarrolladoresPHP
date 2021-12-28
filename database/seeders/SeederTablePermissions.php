@@ -16,15 +16,20 @@ class SeederTablePermissions extends Seeder
     {
         $permissions = [
             //roles permissions
-            'showRole',
-            'createRole',
-            'editRole',
-            'deleteRole',
+           /* 'show-role',
+            'create-role',
+            'edit-role',
+            'delete-role',
             //product permissions
-            'showProduct',
-            'createProduct',
-            'editProduct',
-            'deleteProduct',
+            'show-product',
+            'create-product',
+            'edit-product',
+            'delete-product',*/
+            //user permissions
+            'show-user',
+            'create-user',
+            'edit-user',
+            'delete-user',
 
         ];
         foreach ($permissions as $permission) {
