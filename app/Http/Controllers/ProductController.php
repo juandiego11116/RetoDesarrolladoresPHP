@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Models\product;
 
@@ -9,10 +10,10 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:showProduct | createProduct | editProduct | deleteProduct', ['only'=>['index']]);
-        $this->middleware('permission:createProduct', ['only'=>['create','store']]);
-        $this->middleware('permission:editProduct', ['only'=>['edit','update']]);
-        $this->middleware('permission:deleteProduct', ['only'=>['destroy']]);
+        $this->middleware('permission:show-product|create-product|edit-product|delete-product', ['only'=>['index']]);
+        $this->middleware('permission:create-product', ['only'=>['create','store']]);
+        $this->middleware('permission:edit-product', ['only'=>['edit','update']]);
+        $this->middleware('permission:delete-product', ['only'=>['destroy']]);
     }
 
     public function index()
@@ -21,11 +22,6 @@ class ProductController extends Controller
         return view('products.index', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('products.create');
@@ -47,7 +43,14 @@ class ProductController extends Controller
             'description' => 'required',
             'photo' => 'required',
         ]);
-        product::create($request->all());
+        product::create($request->only(
+            'name',
+            'price',
+            'stock_number',
+            'category',
+            'description',
+            'photo',
+        ));//inyectar los datos validados
         return redirect()->route('products.index');
     }
 
@@ -56,9 +59,9 @@ class ProductController extends Controller
         return view('products.edit', compact('product'));
     }
 
-    public function update(Request $request, product $products)
+    public function update(Request $request, $id)
     {
-        request()->validate([
+        $this->validate($request,[
             'name' => 'required',
             'price' => 'required',
             'stock_number' => 'required',
@@ -67,7 +70,16 @@ class ProductController extends Controller
             'photo' => 'required',
         ]);
 
-        $products->update($request->all());
+
+        $product = product::find($id);
+        $product->update($request->only(
+            'name',
+            'price',
+            'stock_number',
+            'category',
+            'description',
+            'photo',
+        ));
         return redirect()->route('products.index');
     }
 

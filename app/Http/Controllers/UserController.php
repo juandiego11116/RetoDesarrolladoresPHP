@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -12,14 +13,18 @@ use  Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    use WithPagination;
+    public function __construct()
+    {
+        $this->middleware('permission:show-user|create-user|edit-user|delete-user', ['only'=>['index']]);
+        $this->middleware('permission:create-user', ['only'=>['create','store']]);
+        $this->middleware('permission:edit-user', ['only'=>['edit','update']]);
+        $this->middleware('permission:delete-user', ['only'=>['destroy']]);
+    }
+    public $search;
     public function index()
     {
-        $users = User::paginate(5);
+        $users = User::where('name', 'LIKE', '%' . $this->search . '%' )->paginate(5);
         return view('users.index', compact('users'));
     }
 
@@ -112,15 +117,18 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         User::find($id)->delete();
         return redirect()->route('users.index');
     }
+    public function getUsers(Request $request){
+
+        $filter = $request->search;
+
+        $users = Libro::where( 'name', $filter )->get();
+
+        return response()->json($users, 200);
+    }
+
 }
