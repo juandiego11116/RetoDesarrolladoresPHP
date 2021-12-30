@@ -39,10 +39,15 @@ class RolController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $permission = Permission::get();
-        return view('roles.create', compact('permission'));
+        $text = trim($request->get('text'));
+        $permission = DB::table('permissions')
+            ->select('id', 'name')
+            ->where('name', 'LIKE', '%'.$text.'%')
+            ->orderBy('name', 'asc')
+            ->paginate();
+        return view('roles.create', compact('permission', 'text'));
     }
 
     /**
@@ -115,5 +120,15 @@ class RolController extends Controller
     {
         DB::table('roles')->where('id', $id)->delete();
         return redirect()->route('roles.index');
+    }
+    public function search(Request $request)
+    {
+        $text = trim($request->get('text'));
+        $roles = DB::table('roles')
+            ->select('id', 'name')
+            ->where('name', 'LIKE', '%'.$text.'%')
+            ->orderBy('name', 'asc')
+            ->paginate(5);
+        return view('roles.index', compact('roles','text'));
     }
 }

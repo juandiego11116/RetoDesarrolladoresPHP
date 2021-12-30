@@ -37,8 +37,7 @@
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="document_type">Document type</label>
-                                            {!! Form::text('document_type', null, array('class'=>'form-control')) !!}
+                                            {!! Form::select('size', ['CC' => 'Cédula de Ciudadanía', 'Pas' => 'Passport'], array('class'=>'form-control'), ['placeholder' => 'Document Type']) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
