@@ -13,7 +13,7 @@
                             <form href="{{route('roles.index')}}" method="get">
                                 <div class="form-row">
                                     <div class="col-lg-12">
-                                        <input type="text" class="form-control"  name="text" placeholder="search" value="{{$text}}">
+                                        <input type="text" class="form-control"  name="text" placeholder="Search" value="{{$text}}">
                                     </div>
                                 </div>
                             </form>
