@@ -9,6 +9,15 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
+                        <div>
+                            <form href="{{route('roles.index')}}" method="get">
+                                <div class="form-row">
+                                    <div class="col-lg-12">
+                                        <input type="text" class="form-control"  name="text" placeholder="search" value="{{$text}}">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         <div class="card-body">
 
                             @can('create-role')

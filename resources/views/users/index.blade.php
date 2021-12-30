@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('content')
     <section class="section">
         <div class="section-header">
@@ -10,11 +11,13 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div>
-                            <input class="form-control"
-                                   type="searh"
-                                   placeholder="search"
-                                   v-model="search"
-                                   @keyup="users">
+                            <form href="{{route('users.index')}}" method="get">
+                               <div class="form-row">
+                                    <div class="col-lg-12">
+                                        <input type="text" class="form-control"  name="text" placeholder="search" value="{{$text}}">
+                                    </div>
+                               </div>
+                            </form>
                         </div>
                         <div class="card-body">
 
@@ -27,7 +30,6 @@
                                 <th style="color:#fff;">Firts Name</th>
                                 <th style="color:#fff;">Last name</th>
                                 <th style="color:#fff;">E-mail</th>
-                                <th style="color:#fff;">Role</th>
                                 <th style="color:#fff;">Actions</th>
                                 </thead>
                                 <tbody>
@@ -37,13 +39,6 @@
                                             <td>{{$user->name}}</td>
                                             <td>{{$user->last_name}}</td>
                                             <td>{{$user->email}}</td>
-                                            <td>
-                                                @if(!empty($user->getRoleNames()))
-                                                    @foreach($user->getRoleNames() as $rolName)
-                                                    <h5><span class="badge badge-dark">{{$rolName}}</span></h5>
-                                                    @endforeach
-                                                @endif
-                                            </td>
                                             <td>
                                                 @can('edit-user')
                                                     <a class="btn btn-info" href="{{ route('users.edit', $user->id) }}">Edit</a>
@@ -66,12 +61,24 @@
                 </div>
             </div>
         </div>
+
     </section>
 @endsection
-@section('scripts')
+<script>
+    window.addEventListener("load", function(){
+        document.getElementById("text").addEventListener("keyup",function (){
+           fetch(`users.search?text=${ document.getElementById("text").value}`,{
+                method:'get'
+           })
+            .then(response =>response.text())
+            .then(html =>{
 
-    <script src="{{ asset('js/search.js') }}"></script>
+                document.getElementById('result').innerHTML += html
 
-@endsection
+            })
+
+        })
+    })
+</script>
 
 
