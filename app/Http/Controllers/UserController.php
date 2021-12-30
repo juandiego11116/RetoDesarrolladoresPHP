@@ -21,11 +21,23 @@ class UserController extends Controller
         $this->middleware('permission:edit-user', ['only'=>['edit','update']]);
         $this->middleware('permission:delete-user', ['only'=>['destroy']]);
     }
-    public $search;
-    public function index()
+    //public $search;
+    public function search(Request $request)
     {
-        $users = User::where('name', 'LIKE', '%' . $this->search . '%' )->paginate(5);
+        $users = User::where('name','like','%'. $request->text . '%')->take(10)->get();
         return view('users.index', compact('users'));
+    }
+    public function index(Request $request)
+    {
+        $text = trim($request->get('text'));
+        $users = DB::table('users')
+                    ->select('id', 'name', 'last_name', 'email')
+                    ->where('name', 'LIKE', '%'.$text.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$text.'%')
+                    ->orWhere('email', 'LIKE', '%'.$text.'%')
+                    ->orderBy('name', 'asc')
+                    ->paginate(5);
+        return view('users.index', compact('users', 'text'));
     }
 
     /**
@@ -130,5 +142,6 @@ class UserController extends Controller
 
         return response()->json($users, 200);
     }
+
 
 }

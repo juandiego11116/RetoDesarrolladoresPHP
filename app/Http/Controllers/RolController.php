@@ -23,10 +23,15 @@ class RolController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Role::paginate(5);
-        return view('roles.index', compact('roles'));
+        $text = trim($request->get('text'));
+        $roles = DB::table('roles')
+            ->select('id', 'name')
+            ->where('name', 'LIKE', '%'.$text.'%')
+            ->orderBy('name', 'asc')
+            ->paginate(5);
+        return view('roles.index', compact('roles','text'));
     }
 
     /**

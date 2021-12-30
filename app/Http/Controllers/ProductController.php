@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Models\product;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -16,10 +17,18 @@ class ProductController extends Controller
         $this->middleware('permission:delete-product', ['only'=>['destroy']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = product::paginate(5);
-        return view('products.index', compact('products'));
+        $text = trim($request->get('text'));
+        $products = DB::table('products')
+            ->select('id', 'name', 'price', 'stock_number', 'category')
+            ->where('name', 'LIKE', '%'.$text.'%')
+            ->orWhere('price', 'LIKE', '%'.$text.'%')
+            ->orWhere('stock_number', 'LIKE', '%'.$text.'%')
+            ->orWhere('category', 'LIKE', '%'.$text.'%')
+            ->orderBy('name', 'asc')
+            ->paginate(5);
+        return view('products.index', compact('products', 'text'));
     }
 
     public function create()
