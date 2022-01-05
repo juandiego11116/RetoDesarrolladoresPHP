@@ -38,7 +38,17 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="document_type">Document type</label>
-                                            {!! Form::text('document_type', null, array('class'=>'form-control')) !!}
+                                            <select id="document_type" type="text"
+                                                    class="form-control{{ $errors->has('document_type') ? ' is-invalid' : '' }}"
+                                                    name="document_type"
+
+                                                    tabindex="1" placeholder="Enter Document Type" value="{{ old('document_type') }}"
+                                                    autofocus required>
+                                                <option>CC</option>
+                                                <option>PAS</option>
+                                                <option>TI</option>
+
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -62,7 +72,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="phone_number">Phone Number</label>
-                                            {!! Form::text('phone_number', null, array('class'=>'form-control')) !!}
+                                            {!! Form::tel('phone_number', null, array('class'=>'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">

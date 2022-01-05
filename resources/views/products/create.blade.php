@@ -42,13 +42,13 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="price">Price</label>
-                                            <input type="text" name="price" class="form-control">
+                                            <input type="number" name="price" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="stock_number">Stock Number</label>
-                                            <input type="text" name="stock_number" class="form-control">
+                                            <input type="number" name="stock_number" class="form-control" required min="1">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">

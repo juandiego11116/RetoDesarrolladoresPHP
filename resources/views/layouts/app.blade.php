@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
@@ -22,7 +23,9 @@
 
 
     @yield('css')
+    @livewireStyles
 </head>
+
 <body>
 
 <div id="app">
@@ -47,7 +50,7 @@
 
 @include('profile.change_password')
 @include('profile.edit_profile')
-
+@livewireScripts
 </body>
 <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/js/popper.min.js') }}"></script>

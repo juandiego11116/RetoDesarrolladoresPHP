@@ -42,11 +42,19 @@
                         <div class="form-group">
                             <label for="document_type">Document Type:</label><span
                                 class="text-danger">*</span>
-                                <input id="document_type" type="text"
+                                <select id="document_type" type="text"
                                    class="form-control{{ $errors->has('document_type') ? ' is-invalid' : '' }}"
                                    name="document_type"
+
                                    tabindex="1" placeholder="Enter Document Type" value="{{ old('document_type') }}"
                                    autofocus required>
+                                    <option>CC</option>
+                                    <option>PAS</option>
+                                    <option>TI</option>
+
+                                </select>
+
+
                             <div class="invalid-feedback">
                                 {{ $errors->first('document_type') }}
                             </div>
@@ -70,11 +78,15 @@
                         <div class="form-group">
                             <label for="country">Country:</label><span
                                 class="text-danger">*</span>
-                            <input id="country" type="text"
+                            <select id="country" type="text"
                                    class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}"
                                    name="country"
                                    tabindex="1" placeholder="Enter Country" value="{{ old('country') }}"
-                                   autofocus required>
+                                    autofocus required>
+                                <option>Colombia</option>
+                                <option>Ecuador</option>
+                                <option>Peru</option>
+                            </select>
                             <div class="invalid-feedback">
                                 {{ $errors->first('country') }}
                             </div>
@@ -98,7 +110,7 @@
                         <div class="form-group">
                             <label for="phone_number">Phone Number:</label><span
                                 class="text-danger">*</span>
-                            <input id="phone_number" type="text"
+                            <input id="phone_number" type="tel"
                                    class="form-control{{ $errors->has('phone_number') ? ' is-invalid' : '' }}"
                                    name="phone_number"
                                    tabindex="1" placeholder="Enter Phone Number" value="{{ old('phone_number') }}"
