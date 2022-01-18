@@ -33,14 +33,15 @@ class PurchaseController extends Controller
     {
 
         $input = $request->get('product');
+        $amount = $request->get('amount');
 
         $product = DB::table('products')
             ->select('id', 'name', 'price')
             ->where('id', 'LIKE', '%'.$input.'%')
             ->orderBy('name', 'asc')
             ->paginate(5);
-        dump($product);
-        return view('purchases.cart', compact('product', 'input'));
+
+        return view('purchases.cart', compact('product', 'input', 'amount'));
     }
     public function addToCart(Request $request)
     {

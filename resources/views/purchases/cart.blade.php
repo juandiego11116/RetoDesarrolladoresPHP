@@ -18,16 +18,36 @@
                                 <th style="display: none;">ID</th>
                                 <th style="color:#fff;">Name</th>
                                 <th style="color:#fff;">Price</th>
-
-
+                                <th style="color:#fff;">Amount</th>
+                                <th style="color:#fff;">Total</th>
                                 <th style="color:#fff;">Actions</th>
                                 </thead>
                                 <tbody>
-                                @foreach($products as $product)
+                                @foreach($product as $product)
                                     <td style="display: none;">{{ $product->id }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->price }}</td>
                                 @endforeach
+                                <td>
+                                    <input type="number" name="amount" value="{{$amount}}" >
+                                </td>
+                                <form action="{{ route('payment.store') }}" method="POST">
+                                    @csrf
+                                    <td>
+                                        {{$total = $amount*$product->price}}
+                                        <input type="hidden" name="total" value="{{$total}}">
+                                    </td>
+                                    <td style="display: none;">{{$reference = "15january2021"}}</td>
+                                    <input type="hidden" name="reference" value="{{$reference}}">
+                                    <td style="display: none;">{{ $description = "buy" }}</td>
+                                    <input type="hidden" name="description" value="{{$description}}">
+                                    <td>
+
+
+                                        <input type="submit" name="btn" class="btn btn-info" value="BUY">
+                                    </td>
+
+                                </form>
                                 </tbody>
                             </table>
 

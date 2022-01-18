@@ -20,7 +20,7 @@
                                 <th style="color:#fff;">Price</th>
                                 <th style="color:#fff;">Stock Number</th>
                                 <th style="color:#fff;">Category</th>
-
+                                <th style="color:#fff;">Amount</th>
                                 <th style="color:#fff;">Actions</th>
                                 </thead>
                                 <tbody>
@@ -33,17 +33,21 @@
                                         <td>{{ $product->category }}</td>
 
                                         <form action="{{ route('purchases.create') }}" method="get">
+                                            <td>
+                                                <input type="hidden" name="amount" value="{{"amount"}}">
+                                                <input type="number" name="amount" >
+                                            </td>
                                         <td>
                                             <input type="hidden" name="product" value="{{$product->id}}">
 
                                             <input type="submit" name="btn" class="btn btn-info" value="ADD TO CARD">
 
                                         </td>
-                                            <a class="btn btn-info" href="{{ route('purchases.create') }}">CARD</a>
+
                                         </form>
                                     </tr>
                                 @endforeach
-
+                                <a class="btn btn-info" href="{{ route('purchases.create') }}">CARD</a>
                                 </tbody>
                             </table>
 
