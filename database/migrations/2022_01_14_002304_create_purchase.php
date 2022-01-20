@@ -13,11 +13,13 @@ class CreatePurchase extends Migration
      */
     public function up()
     {
-        Schema::create('purchase', function (Blueprint $table) {
+        Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->string ('id_product');
+            $table->string('id_request');
             $table->integer('price');
             $table->integer('amount');
+            $table->string ('status');
             $table->timestamps();
         });
     }
