@@ -70,7 +70,7 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'price' => 'required',
             'stock_number' => 'required',
@@ -99,4 +99,3 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 }
-

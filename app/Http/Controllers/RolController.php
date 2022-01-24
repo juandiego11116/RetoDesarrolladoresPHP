@@ -31,7 +31,7 @@ class RolController extends Controller
             ->where('name', 'LIKE', '%'.$text.'%')
             ->orderBy('name', 'asc')
             ->paginate(5);
-        return view('roles.index', compact('roles','text'));
+        return view('roles.index', compact('roles', 'text'));
     }
 
     /**
@@ -129,6 +129,6 @@ class RolController extends Controller
             ->where('name', 'LIKE', '%'.$text.'%')
             ->orderBy('name', 'asc')
             ->paginate(5);
-        return view('roles.index', compact('roles','text'));
+        return view('roles.index', compact('roles', 'text'));
     }
 }

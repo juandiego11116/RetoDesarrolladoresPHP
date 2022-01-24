@@ -24,7 +24,7 @@ class UserController extends Controller
     //public $search;
     public function search(Request $request)
     {
-        $users = User::where('name','like','%'. $request->text . '%')->take(10)->get();
+        $users = User::where('name', 'like', '%'. $request->text . '%')->take(10)->get();
         return view('users.index', compact('users'));
     }
     public function index(Request $request)
@@ -134,14 +134,12 @@ class UserController extends Controller
         User::find($id)->delete();
         return redirect()->route('users.index');
     }
-    public function getUsers(Request $request){
-
+    public function getUsers(Request $request)
+    {
         $filter = $request->search;
 
-        $users = Libro::where( 'name', $filter )->get();
+        $users = Libro::where('name', $filter)->get();
 
         return response()->json($users, 200);
     }
-
-
 }

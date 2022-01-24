@@ -31,7 +31,6 @@ class PurchaseController extends Controller
     }
     public function create(Request $request)
     {
-
         $input = $request->get('product');
         $amount = $request->get('amount');
 
@@ -48,8 +47,5 @@ class PurchaseController extends Controller
         $product = ProductController::find($request->product);
 
         return view('purchases.cart', compact('product'));
-
     }
-
-
 }
