@@ -3,14 +3,12 @@
 namespace App\Providers;
 
 use App\Http\Controllers\PaymentController;
-use App\Playtopay\PaymentGatewayContract;
-use App\Playtopay\Placetopay;
+use App\Placetopay\PaymentGatewayContract;
+use App\Placetopay\Placetopay;
 use Illuminate\Support\ServiceProvider;
 
 class PaymentGatewayProvider extends ServiceProvider
 {
-
-
     /**
      * Bootstrap services.
      *
