@@ -1,8 +1,11 @@
+import InputTotal from "./components/InputTotal";
+
 require('./bootstrap');
 import {createApp} from "vue";
-import CartButton from "../components/CartButton";
+import LabelTotal from "./components/LabelTotal";
 createApp({
     components: {
-        'cart-button': CartButton
+        'label-total': LabelTotal,
+        'input-total': InputTotal
     }
 }).mount('#app');
