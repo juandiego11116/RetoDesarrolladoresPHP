@@ -37,4 +37,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('products', ProductController::class);
     Route::resource('purchases', \App\Http\Controllers\PurchaseController::class);
     Route::resource('payment', \App\Http\Controllers\PaymentController::class);
+    Route::resource('history', \App\Http\Controllers\PaymentController::class);
 });
