@@ -6,7 +6,7 @@
             <h3 class="page__heading">Shopping</h3>
         </div>
         <div class="section-body">
-            <div id="app" class="row">
+            <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
@@ -28,17 +28,15 @@
                                             <td>{{ $product->price }}</td>
                                             <td>{{ $product->stock_number }}</td>
                                             <td>{{ $product->category }}</td>
-                                            <form action="{{ route('purchases.create') }}" method="get">
-                                                <td>
-                                                    <input type="hidden" name="amount" value="{{"amount"}}">
-                                                    <input type="number" name="amount" >
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="product" value="{{$product->id}}">
-                                                    <input type="submit" name="btn" class="btn btn-info" value="ADD TO CARD">
-                                                    <cart-button></cart-button>
-                                                </td>
-                                            </form>
+                                            <td>
+                                                <form id="purchases-form{{$product->id}}" action="{{ route('purchases.create') }}" method="get">
+                                                        <div class="flex">
+                                                            <input type="number" name="amount" value="{{"amount"}}" form="purchases-form{{$product->id}}">
+                                                            <input type="hidden" name="product" value="{{$product->id}}" form="purchases-form{{$product->id}}">
+                                                            <button type="submit" name="btn" class="btn btn-info" form="purchases-form{{$product->id}}">ADD TO CARD</button>
+                                                        </div>
+                                                </form>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     <a class="btn btn-info" href="{{ route('purchases.create') }}">CARD</a>
@@ -55,9 +53,4 @@
         </div>
     </section>
 @endsection
-<script>
-    import CartButton from "../../components/CartButton";
-    export default {
-        components: {CartButton}
-    }
-</script>
+

@@ -20,43 +20,42 @@
                                     <th style="color:#fff;">Actions</th>
                                 </thead>
                                 <tbody>
-
                                     @foreach($product as $product)
-                                        <form action="{{ route('payment.store') }}" method="POST">
-                                            @csrf
                                         <tr>
                                             <td
                                                 style="display: none;">{{ $product->id }}
-                                                <input type="hidden" name="id_product" value="{{ $product->id }}">
                                             </td>
                                             <td>
                                                 {{ $product->name }}
-                                                <input type="hidden" name="name" value="{{ $product->name }}">
                                             </td>
                                             <td>
                                                 {{ $product->price }}
-                                                <input type="hidden" name="price" value="{{ $product->price }}">
                                             </td>
                                             <td>
-                                                <input type="number" name="amount" value="{{$amount}}" >
+                                                <input-total pamount="{{$amount}}"></input-total>
                                             </td>
-
-
-                                                <td>
-                                                    {{$total = $amount*$product->price}}
-                                                    <input type="hidden" name="total" value="{{$total}}">
-                                                </td>
-                                                <td style="display: none;">{{$reference = "15january2021"}}</td>
-                                                <input type="hidden" name="reference" value="{{$reference}}">
-                                                <td style="display: none;">{{ $description = "buy" }}</td>
-                                                <input type="hidden" name="description" value="{{$description}}">
-                                                <td>
-                                                    <input type="submit" name="btn" class="btn btn-primary" value="BUY">
-                                                </td>
-
+                                            <td>
+                                                <label-total type="number" price="{{$product->price}}"></label-total>
+                                            </td>
+                                            <td style="display: none;">{{$reference = "15january2021"}}</td>
+                                            <td style="display: none;">{{ $description = "buy" }}</td>
+                                            <td>
+                                                <form id="pay-form{{$product->id}}" action="{{ route('payment.store') }}" method="POST">
+                                                    @csrf
+                                                    <div class="flex">
+                                                        <input type="hidden" name="id_product" value="{{ $product->id }}" id="pay-form{{$product->id}}">
+                                                        <input type="hidden" name="name" value="{{ $product->name }}" id="purchpayases-form{{$product->id}}">
+                                                        <input type="hidden" name="price" value="{{$product->price}}" id="pay-form{{$product->id}}">
+                                                        <input type="hidden" name="amount" value="{{$amount}}" id="pay-form{{$product->id}}">
+                                                        <input type="hidden" name="total" value="{{$total=$amount*$product->price}}" id="pay-form{{$product->id}}">
+                                                        <input type="hidden" name="reference" value="{{$reference}}" id="pay-form{{$product->id}}">
+                                                        <input type="hidden" name="description" value="{{$description}}" id="pay-form{{$product->id}}">
+                                                        <button type="submit" name="btn" class="btn btn-primary" form="pay-form{{$product->id}}">BUY</button>
+                                                    </div>
+                                                </form>
+                                            </td>
                                         </tr>
                                     @endforeach
-                                </form>
                                 </tbody>
                              </table>
                         </div>
@@ -66,3 +65,4 @@
         </div>
     </section>
 @endsection
+
