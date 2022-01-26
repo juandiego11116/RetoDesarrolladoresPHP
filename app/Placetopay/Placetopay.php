@@ -41,7 +41,7 @@ class Placetopay implements \App\Placetopay\PaymentGatewayContract
             'payment' => $this->makePayment($request),
             'allowPartial' => false,
             'expiration' => Carbon::now(new \DateTimeZone('America/Bogota'))->addHour()->toIso8601String(),
-            'returnUrl' => config('placetopay.uri'),
+            'returnUrl' => config('placetopay.uriReturn'),
             'ipAddress' => '127.0.0.1',
             'userAgent' => 'PlacetoPay Sandbox',
         ];
