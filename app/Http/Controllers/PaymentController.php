@@ -41,20 +41,25 @@ class PaymentController extends Controller
     public function update(Request $request)
     {
     }
-    public function show(Request $request): void
+    public function show(Request $request)
     {
         $paymentGateway = app()->make(PaymentGatewayContract::class, $request->only('id_request'));
-
         $response = $paymentGateway->createSessionConsult();
-        $purchasesId = $response['requestId'];
-        $purchases = Purchase::find($response['requestId']);
-        //$purchases->status = $response['status']['status'];
 
-        //dd($purchases);
-        //$response['status']['status'];
+        $purchases = Purchase::find($response['requestId']);
+
         DB::table('purchases')
              ->select('status')
              ->where('id_request', 'LIKE', $response['requestId'])
              ->update(['status' => $response['status']['status']]);
+
+        $purchases = DB::table('purchases')->join('products', 'products.id', '=', 'purchases.id_product')
+        ->select('purchases.id', 'purchases.id_product', 'products.name', 'purchases.id_request', 'purchases.price', 'purchases.amount', 'purchases.status')
+        ->orderBy('purchases.status', 'asc')
+        ->paginate(5);
+        $text = trim($request->get('text'));
+
+        return view('purchases.history', compact('purchases', 'text'));
     }
+
 }
