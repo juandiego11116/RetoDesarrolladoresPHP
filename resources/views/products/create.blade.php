@@ -42,7 +42,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="price">Price</label>
-                                            <input type="number" name="price" class="form-control">
+                                            <input type="number" step="0.1" name="price" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
