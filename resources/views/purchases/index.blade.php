@@ -28,10 +28,11 @@
                                             <td>{{ $product->price }}</td>
                                             <td>{{ $product->stock_number }}</td>
                                             <td>{{ $product->category }}</td>
+                                            <td><input type="number" name="amount" min="1" value="{{"amount"}}" form="purchases-form{{$product->id}}"></td>
                                             <td>
-                                                <form id="purchases-form{{$product->id}}" action="{{ route('purchases.create') }}" method="get">
+                                                <form id="purchases-form{{$product->id}}"  action="{{ route('purchases.create') }}" method="get">
                                                         <div class="flex">
-                                                            <input type="number" name="amount" value="{{"amount"}}" form="purchases-form{{$product->id}}">
+
                                                             <input type="hidden" name="product" value="{{$product->id}}" form="purchases-form{{$product->id}}">
                                                             <button type="submit" name="btn" class="btn btn-info" form="purchases-form{{$product->id}}">ADD TO CARD</button>
                                                         </div>

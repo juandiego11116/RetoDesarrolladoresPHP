@@ -9,6 +9,15 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
+                        <div>
+                            <form href="{{route('purchases.index')}}" method="get">
+                                <div class="form-row">
+                                    <div class="col-lg-12">
+                                        <input type="text" class="form-control"  name="text" placeholder="search" value="{{$text}}">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         <div class="card-body">
                             <table class="table table-striped mt-2">
                                 <thead style="background-color:#6777ef">
@@ -21,6 +30,7 @@
                                 <th style="color:#fff;">Total</th>
                                 <th style="color:#fff;">Status</th>
                                 <th style="color:#fff;">Actions</th>
+                                <th style="color:#fff;"></th>
                                 </thead>
                                 <tbody>
 
@@ -55,6 +65,7 @@
                                         <td>
                                             <form action="{{ route('payment.store') }}" method="POST">
                                                     @csrf
+                                                    <input type="hidden" name="text" placeholder="search" value="{{$text}}">
                                                     <input type="hidden" name="id_purchase" value="{{ $purchase->id }}">
                                                     <input type="hidden" name="id_product" value="{{ $purchase->id_product }}">
                                                     <input type="hidden" name="name" value="{{ $purchase->name }}">
@@ -66,20 +77,20 @@
                                                     <input type="submit" name="btn" class="btn btn-primary" value="BUY">
                                             </form>
                                         </td>
-                                        <td>
-                                            <form action="{{ route('payment.update', $purchase->id_request) }}" method="PATCH">
-                                                @csrf
-                                                <input type="hidden" name="id_request" value="{{ $purchase->id_request }}">
-                                                <input type="submit" name="btn" class="btn btn-primary" value="UPDATE">
-                                            </form>
-                                        </td>
+                                            <td>
+                                                <form action="{{ route('payment.show', $purchase->id_request) }}" method="PATCH">
+                                                    @csrf
+                                                    <input type="hidden" name="id_request" value="{{ $purchase->id_request }}">
+                                                    <input type="submit" name="btn" class="btn btn-primary" value="UPDATE">
+                                                </form>
+                                            </td>
                                         </tr>
                                     @endforeach
-
                                 </tbody>
-
-
                             </table>
+                            <div class="pagination justify-content-end">
+                                {!! $purchases->links() !!}
+                            </div>
                         </div>
                     </div>
                 </div>

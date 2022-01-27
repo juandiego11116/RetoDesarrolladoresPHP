@@ -22,21 +22,11 @@
                                 <tbody>
                                     @foreach($product as $product)
                                         <tr>
-                                            <td
-                                                style="display: none;">{{ $product->id }}
-                                            </td>
-                                            <td>
-                                                {{ $product->name }}
-                                            </td>
-                                            <td>
-                                                {{ $product->price }}
-                                            </td>
-                                            <td>
-                                                <input-total pamount="{{$amount}}"></input-total>
-                                            </td>
-                                            <td>
-                                                <label-total type="number" price="{{$product->price}}"></label-total>
-                                            </td>
+                                            <td style="display: none;">{{ $product->id }}</td>
+                                            <td>{{ $product->name }}</td>
+                                            <td>{{ $product->price }}</td>
+                                            <td><input-total min="1" pamount="{{$amount}}"></input-total></td>
+                                            <td><label-total type="number" price="{{$product->price}}"></label-total></td>
                                             <td style="display: none;">{{$reference = "15january2021"}}</td>
                                             <td style="display: none;">{{ $description = "buy" }}</td>
                                             <td>
