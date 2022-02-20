@@ -45,8 +45,8 @@
                                         <div class="card-block">
                                             <h5>Products</h5>
                                             @php
-                                                use App\Models\product;
-                                               $amount_products = product::count();
+                                                use App\Models\Product;
+                                               $amount_products = Product::count();
                                             @endphp
                                             <h2 class="text-right"><i class="fa fa-layer-group f-left"></i><span>{{$amount_products}}</span></h2>
                                             <p class="m-b-0 text-right"><a href="/products" class="text-white">More</a></p>

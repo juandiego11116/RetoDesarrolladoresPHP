@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use http\Env\Response;
 use Illuminate\Http\Request;
-use App\Models\product;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -52,7 +52,7 @@ class ProductController extends Controller
             'description' => 'required',
             'photo' => 'required',
         ]);
-        product::create($request->only(
+        Product::create($request->only(
             'name',
             'price',
             'stock_number',
@@ -63,7 +63,7 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    public function edit(product $product)
+    public function edit(Product $product)
     {
         return view('products.edit', compact('product'));
     }
@@ -80,7 +80,7 @@ class ProductController extends Controller
         ]);
 
 
-        $product = product::find($id);
+        $product = Product::find($id);
         $product->update($request->only(
             'name',
             'price',
@@ -93,7 +93,7 @@ class ProductController extends Controller
     }
 
 
-    public function destroy(product $product)
+    public function destroy(Product $product)
     {
         $product->delete();
         return redirect()->route('products.index');
