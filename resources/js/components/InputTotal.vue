@@ -1,6 +1,6 @@
 <template>
 
-    <input  type="number" @change="changeAmount" name="amount" :value="amount" >
+    <input type="number" @change="changeAmount" name="amount" :value="amount" >
 
 </template>
 <script>

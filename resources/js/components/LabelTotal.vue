@@ -11,7 +11,8 @@ export default {
         const total = computed(() => {
             return amount.value * props.price
         })
-        return {total}
+
+       return {total}
     }
 }
 </script>
