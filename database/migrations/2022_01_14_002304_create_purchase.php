@@ -20,6 +20,7 @@ class CreatePurchase extends Migration
             $table->integer('price');
             $table->integer('amount');
             $table->string ('status');
+            $table->string ('reference');
             $table->timestamps();
         });
     }
