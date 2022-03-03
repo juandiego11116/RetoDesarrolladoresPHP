@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\View\View;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
@@ -21,13 +25,13 @@ class UserController extends Controller
         $this->middleware('permission:edit-user', ['only'=>['edit','update']]);
         $this->middleware('permission:delete-user', ['only'=>['destroy']]);
     }
-    //public $search;
-    public function search(Request $request)
+
+    public function search(Request $request):View
     {
         $users = User::where('name', 'like', '%'. $request->text . '%')->take(10)->get();
         return view('users.index', compact('users'));
     }
-    public function index(Request $request)
+    public function index(Request $request):View
     {
         $text = trim($request->get('text'));
         $users = DB::table('users')
@@ -40,24 +44,13 @@ class UserController extends Controller
         return view('users.index', compact('users', 'text'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create():View
     {
         $roles = Role::pluck('name', 'name')->all();
         return view('users.create', compact('roles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request):RedirectResponse
     {
         //cambiar  a form request
         $this->validate($request, [
@@ -79,14 +72,7 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit($id):View
     {
         $user =  User::find($id);
         $roles = Role::pluck('name', 'name')->all();
@@ -94,14 +80,7 @@ class UserController extends Controller
         return view('users.edit', compact('user', 'roles', 'userRole'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id):RedirectResponse
     {
         $this->validate($request, [
             'name' => 'required',
@@ -129,12 +108,12 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    public function destroy($id)
+    public function destroy($id):RedirectResponse
     {
         User::find($id)->delete();
         return redirect()->route('users.index');
     }
-    public function getUsers(Request $request)
+    public function getUsers(Request $request):JsonResponse
     {
         $filter = $request->search;
 

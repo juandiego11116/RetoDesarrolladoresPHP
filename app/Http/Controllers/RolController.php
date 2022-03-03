@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
@@ -18,12 +21,7 @@ class RolController extends Controller
         $this->middleware('permission:delete-role', ['only'=>['destroy']]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    public function index(Request $request):View
     {
         $text = trim($request->get('text'));
         $roles = DB::table('roles')
@@ -34,12 +32,7 @@ class RolController extends Controller
         return view('roles.index', compact('roles', 'text'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
+    public function create(Request $request):View
     {
         $text = trim($request->get('text'));
         $permission = DB::table('permissions')
@@ -50,13 +43,7 @@ class RolController extends Controller
         return view('roles.create', compact('permission', 'text'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request):RedirectResponse
     {
         $this->validate($request, ['name' => 'required', 'permission' => 'required']);
         $role = Role::create(['name' => $request->input('name')]);
@@ -65,24 +52,7 @@ class RolController extends Controller
         return redirect()->route('roles.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit($id):View
     {
         $role = Role::find($id);
         $permission = Permission::get();
@@ -93,14 +63,8 @@ class RolController extends Controller
         return view('roles.edit', compact('role', 'permission', 'rolePermissions'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update(Request $request, $id): RedirectResponse
     {
         $this->validate($request, ['name' => 'required', 'permission' => 'required']);
         $role = Role::find($id);
@@ -110,18 +74,12 @@ class RolController extends Controller
         return redirect()->route('roles.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy($id):RedirectResponse
     {
         DB::table('roles')->where('id', $id)->delete();
         return redirect()->route('roles.index');
     }
-    public function search(Request $request)
+    public function search(Request $request):View
     {
         $text = trim($request->get('text'));
         $roles = DB::table('roles')

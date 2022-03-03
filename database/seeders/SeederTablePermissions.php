@@ -7,12 +7,7 @@ use Spatie\Permission\Models\Permission;
 
 class SeederTablePermissions extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run():void
     {
         $permissions = [
             //roles permissions

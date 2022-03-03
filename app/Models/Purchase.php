@@ -20,6 +20,5 @@ class Purchase extends Model
         'amount',
         'status',
         'reference',
-
     ];
 }

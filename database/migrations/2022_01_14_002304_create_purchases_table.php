@@ -4,14 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePurchase extends Migration
+class CreatePurchasesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up():void
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
@@ -21,16 +16,12 @@ class CreatePurchase extends Migration
             $table->integer('amount');
             $table->string ('status');
             $table->string ('reference');
+            $table->string('deduct_from_stock');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down():void
     {
         Schema::dropIfExists('purchase');
     }

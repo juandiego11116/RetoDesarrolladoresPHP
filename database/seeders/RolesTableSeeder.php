@@ -7,19 +7,15 @@ use Spatie\Permission\Models\Role;
 
 class RolesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+
+    public function run():void
     {
         Role::create([
             'name' => 'admin',
             'guard_name' => config('auth.defaults.guard')
         ]);
         Role::create([
-            'name' => 'custumer',
+            'name' => 'customer',
             'guard_name' => config('auth.defaults.guard')
         ]);
     }
