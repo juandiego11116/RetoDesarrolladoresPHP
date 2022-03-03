@@ -12,10 +12,12 @@ class Placetopay implements \App\Placetopay\PaymentGatewayContract
     public function createSession(): array
     {
         $request = $this->makeRequest();
+
         $response = Http::post(config('placetopay.uri'). '/api/session', $request);
 
         return $response->json();
     }
+
     public function createSessionConsult(): array
     {
         $request = request();
@@ -29,11 +31,10 @@ class Placetopay implements \App\Placetopay\PaymentGatewayContract
         return $response->json();
     }
 
-
-
-    public function makeRequest()
+    public function makeRequest(): array
     {
         $request = request();
+        $reference = $request->get('reference');
 
         return [
             'locale'=> 'es_CO',
@@ -41,11 +42,12 @@ class Placetopay implements \App\Placetopay\PaymentGatewayContract
             'payment' => $this->makePayment($request),
             'allowPartial' => false,
             'expiration' => Carbon::now(new \DateTimeZone('America/Bogota'))->addHour()->toIso8601String(),
-            'returnUrl' => config('placetopay.uriReturn'),
+            'returnUrl' => route('payment.finish', $reference),
             'ipAddress' => '127.0.0.1',
             'userAgent' => 'PlacetoPay Sandbox',
         ];
     }
+
     public function makeAuth(): array
     {
         $nonce = \Illuminate\Support\Str::random();
@@ -58,6 +60,7 @@ class Placetopay implements \App\Placetopay\PaymentGatewayContract
         ];
         return $data;
     }
+
     public function makePayment(Request $request): array
     {
         $reference = $request->get('reference');
