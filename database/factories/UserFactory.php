@@ -2,24 +2,21 @@
 
 namespace Database\Factories;
 
+use App\Models\Country;
+use App\Models\DocumentType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    public function definition():array
     {
         return [
             'name' => $this->faker->name(),
             'lastName' => $this->faker->lastName(),
-            'document_type' => $this->faker->sentence(1),
+            'id_document_type' => '1',
             'document' => $this->faker->numberBetween(0000000000, 9999999999),
-            'country' => $this->faker->country(),
+            'id_country' => '1',
             'address' => $this->faker->address(),
             'phoneNumber' => $this->faker->phoneNumber(),
             'email' => $this->faker->unique()->safeEmail(),
@@ -29,12 +26,8 @@ class UserFactory extends Factory
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function unverified()
+
+    public function unverified():UserFactory
     {
         return $this->state(function (array $attributes) {
             return [
