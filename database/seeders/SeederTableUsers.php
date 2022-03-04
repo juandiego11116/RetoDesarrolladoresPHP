@@ -7,19 +7,14 @@ use Illuminate\Database\Seeder;
 
 class SeederTableUsers extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run():void
     {
         $admin = User::create([
             'name' => 'Admin',
             'last_name' => 'Super',
-            'document_type' => 'CC',
+            'id_document_type' => '1',
             'document' => '1234567890',
-            'country' => 'Colombia',
+            'id_country' => '1',
             'address' => 'Calle 1 # 2 - 3',
             'phone_number' => '3216549872',
             'email' => 'admin@admin.com',
@@ -31,15 +26,15 @@ class SeederTableUsers extends Seeder
         $customer = User::create([
             'name' => 'Customer',
             'last_name' => 'Customer',
-            'document_type' => 'CC',
+            'id_document_type' => '1',
             'document' => '1234567890',
-            'country' => 'Colombia',
+            'id_country' => '1',
             'address' => 'Calle 1 # 2 - 3',
             'phone_number' => '3216549872',
             'email' => 'customer@app.com',
             'password' => bcrypt('12345678'),
             'email_verified_at' => now(),
         ]);
-        $customer->assignRole('user');
+        $customer->assignRole('customer');
     }
 }
