@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class PurchaseController extends Controller
 {
@@ -16,7 +17,7 @@ class PurchaseController extends Controller
         $this->middleware('permission:delete-product', ['only'=>['destroy']]);
     }
 
-    public function index(Request $request)
+    public function index(Request $request):View
     {
         $text = trim($request->get('text'));
         $products = DB::table('products')
@@ -29,20 +30,20 @@ class PurchaseController extends Controller
             ->paginate(5);
         return view('purchases.index', compact('products', 'text'));
     }
-    public function create(Request $request)
+    public function create(Request $request):View
     {
         $input = $request->get('product');
         $amount = $request->get('amount');
 
         $product = DB::table('products')
             ->select('id', 'name', 'price')
-            ->where('id', 'LIKE', '%'.$input.'%')
+            ->where('id', '=', $input)
             ->orderBy('name', 'asc')
             ->paginate(5);
 
         return view('purchases.cart', compact('product', 'input', 'amount'));
     }
-    public function addToCart(Request $request)
+    public function addToCart(Request $request):View
     {
         $product = ProductController::find($request->product);
 
