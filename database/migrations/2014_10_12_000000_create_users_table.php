@@ -6,21 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+
+    public function up():void
     {
         Schema::create('users', function (Blueprint $table) {
             //crear longitud
             $table->id();
             $table->string('name');
             $table->string('last_name');
-            $table->string('document_type');//crear tabla
+            $table->string('id_document_type');
             $table->string('document');
-            $table->string('country');//crear tabla tambien estado y ciudad
+            $table->string('id_country');
             $table->string('address');
             $table->string('phone_number');//cambiar (_) y agregar 3 caracteres del pais
             $table->string('email')->unique();
@@ -31,12 +27,7 @@ class CreateUsersTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down():void
     {
         Schema::dropIfExists('users');
     }
