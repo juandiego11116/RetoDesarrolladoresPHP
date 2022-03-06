@@ -38,16 +38,15 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="document_type">Document type</label>
-                                            <select id="document_type" type="text"
-                                                    class="form-control{{ $errors->has('document_type') ? ' is-invalid' : '' }}"
-                                                    name="document_type"
-
-                                                    tabindex="1" placeholder="Enter Document Type" value="{{ old('document_type') }}"
+                                            <select id="id_document_type" type="text"
+                                                    class="form-control{{ $errors->has('id_document_type') ? ' is-invalid' : '' }}"
+                                                    name="id_document_type"
+                                                    tabindex="1"
+                                                    value="{{ old('id_document_type') }}"
                                                     autofocus required>
-                                                <option>CC</option>
-                                                <option>PAS</option>
-                                                <option>TI</option>
-
+                                                @foreach($documentTypes as $documentType)
+                                                    <option>{{$documentType->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -60,7 +59,16 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="country">Country</label>
-                                            {!! Form::text('country', null, array('class'=>'form-control')) !!}
+                                            <select id="id_country" type="text"
+                                                    class="form-control{{ $errors->has('id_country') ? ' is-invalid' : '' }}"
+                                                    name="id_country"
+                                                    tabindex="1"
+                                                    value="{{ old('id_country') }}"
+                                                    autofocus required>
+                                                @foreach($countries as $country)
+                                                    <option>{{$country->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">

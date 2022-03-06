@@ -37,7 +37,16 @@
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            {!! Form::select('size', ['CC' => 'Cédula de Ciudadanía', 'Pas' => 'Passport'], array('class'=>'form-control'), ['placeholder' => 'Document Type']) !!}
+                                            <select id="id_document_type" type="text"
+                                                    class="form-control{{ $errors->has('id_document_type') ? ' is-invalid' : '' }}"
+                                                    name="id_document_type"
+                                                    tabindex="1"
+                                                    value="{{ old('id_document_type') }}"
+                                                    autofocus required>
+                                                @foreach($documentTypes as $documentType)
+                                                    <option>{{$documentType->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -49,7 +58,16 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="country">Country</label>
-                                            {!! Form::text('country', null, array('class'=>'form-control')) !!}
+                                            <select id="id_country" type="text"
+                                                    class="form-control{{ $errors->has('id_country') ? ' is-invalid' : '' }}"
+                                                    name="id_country"
+                                                    tabindex="1"
+                                                    value="{{ old('id_country') }}"
+                                                    autofocus required>
+                                                @foreach($countries as $country)
+                                                    <option>{{$country->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
