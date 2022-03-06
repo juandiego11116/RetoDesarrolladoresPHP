@@ -28,7 +28,10 @@
                                             <td>{{ $product->price }}</td>
                                             <td>{{ $product->stock_number }}</td>
                                             <td>{{ $product->category }}</td>
-                                            <td><input type="number" name="amount" min="1" value="{{"amount"}}" form="purchases-form{{$product->id}}"></td>
+                                            <td>
+                                                <input type="number" name="amount" min="1" max="{{$product->stock_number}}" value="{{"amount"}}" form="purchases-form{{$product->id}}">
+
+                                            </td>
                                             <td>
                                                 <form id="purchases-form{{$product->id}}"  action="{{ route('purchases.create') }}" method="get">
                                                         <div class="flex">
