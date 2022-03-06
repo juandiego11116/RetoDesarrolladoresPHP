@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class SeederTableProducts extends Seeder
 {
-    public function run():void
+    public function run(): void
     {
         Product::factory(20)->create();
     }

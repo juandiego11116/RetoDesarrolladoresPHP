@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class DocumentsTypeTableSeeder extends Seeder
 {
-    public function run():void
+    public function run(): void
     {
         DocumentType::create([
             'name' => 'Cedula de Ciudadania',

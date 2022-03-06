@@ -17,7 +17,7 @@ class PurchaseController extends Controller
         $this->middleware('permission:delete-product', ['only'=>['destroy']]);
     }
 
-    public function index(Request $request):View
+    public function index(Request $request): View
     {
         $text = trim($request->get('text'));
         $products = DB::table('products')
@@ -30,7 +30,7 @@ class PurchaseController extends Controller
             ->paginate(5);
         return view('purchases.index', compact('products', 'text'));
     }
-    public function create(Request $request):View
+    public function create(Request $request): View
     {
         $input = $request->get('product');
         $amount = $request->get('amount');
@@ -43,7 +43,7 @@ class PurchaseController extends Controller
 
         return view('purchases.cart', compact('product', 'input', 'amount'));
     }
-    public function addToCart(Request $request):View
+    public function addToCart(Request $request): View
     {
         $product = ProductController::find($request->product);
 

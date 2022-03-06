@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
-
-    public function up():void
+    public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             //crear longitud
@@ -27,7 +26,7 @@ class CreateUsersTable extends Migration
         });
     }
 
-    public function down():void
+    public function down(): void
     {
         Schema::dropIfExists('users');
     }

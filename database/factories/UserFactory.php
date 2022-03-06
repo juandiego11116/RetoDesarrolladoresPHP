@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
-    public function definition():array
+    public function definition(): array
     {
         return [
             'name' => $this->faker->name(),
@@ -27,7 +27,7 @@ class UserFactory extends Factory
     }
 
 
-    public function unverified():UserFactory
+    public function unverified(): UserFactory
     {
         return $this->state(function (array $attributes) {
             return [

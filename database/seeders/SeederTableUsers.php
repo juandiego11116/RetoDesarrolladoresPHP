@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class SeederTableUsers extends Seeder
 {
-    public function run():void
+    public function run(): void
     {
         $admin = User::create([
             'name' => 'Admin',

@@ -11,7 +11,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    public function categories():BelongsTo
+    public function categories(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'id_category');
     }
@@ -35,9 +35,8 @@ class Product extends Model
         'visible',
     ];
 
-    public function getPhotoAttribute():string
+    public function getPhotoAttribute(): string
     {
         return $this->attributes['photo'] = '/storage/'.$this->attributes['photo'];
     }
-
 }

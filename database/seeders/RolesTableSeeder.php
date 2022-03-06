@@ -7,8 +7,7 @@ use Spatie\Permission\Models\Role;
 
 class RolesTableSeeder extends Seeder
 {
-
-    public function run():void
+    public function run(): void
     {
         Role::create([
             'name' => 'admin',

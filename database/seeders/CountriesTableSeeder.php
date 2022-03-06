@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class CountriesTableSeeder extends Seeder
 {
-    public function run():void
+    public function run(): void
     {
         Country::create([
             'name' => 'Colombia',

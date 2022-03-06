@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateProductsTable extends Migration
 {
-    public function up():void
+    public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
         });
     }
 
-    public function down():void
+    public function down(): void
     {
         Schema::dropIfExists('products');
     }

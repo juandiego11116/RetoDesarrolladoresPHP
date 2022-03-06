@@ -21,7 +21,7 @@ class RolController extends Controller
         $this->middleware('permission:delete-role', ['only'=>['destroy']]);
     }
 
-    public function index(Request $request):View
+    public function index(Request $request): View
     {
         $text = trim($request->get('text'));
         $roles = DB::table('roles')
@@ -32,7 +32,7 @@ class RolController extends Controller
         return view('roles.index', compact('roles', 'text'));
     }
 
-    public function create(Request $request):View
+    public function create(Request $request): View
     {
         $text = trim($request->get('text'));
         $permission = DB::table('permissions')
@@ -43,7 +43,7 @@ class RolController extends Controller
         return view('roles.create', compact('permission', 'text'));
     }
 
-    public function store(Request $request):RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $this->validate($request, ['name' => 'required', 'permission' => 'required']);
         $role = Role::create(['name' => $request->input('name')]);
@@ -52,7 +52,7 @@ class RolController extends Controller
         return redirect()->route('roles.index');
     }
 
-    public function edit($id):View
+    public function edit($id): View
     {
         $role = Role::find($id);
         $permission = Permission::get();
@@ -74,12 +74,12 @@ class RolController extends Controller
         return redirect()->route('roles.index');
     }
 
-    public function destroy($id):RedirectResponse
+    public function destroy($id): RedirectResponse
     {
         DB::table('roles')->where('id', $id)->delete();
         return redirect()->route('roles.index');
     }
-    public function search(Request $request):View
+    public function search(Request $request): View
     {
         $text = trim($request->get('text'));
         $roles = DB::table('roles')

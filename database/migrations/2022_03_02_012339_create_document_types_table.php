@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateDocumentTypesTable extends Migration
 {
-    public function up():void
+    public function up(): void
     {
         Schema::create('document_types', function (Blueprint $table) {
             $table->id();
@@ -15,7 +15,7 @@ class CreateDocumentTypesTable extends Migration
         });
     }
 
-    public function down():void
+    public function down(): void
     {
         Schema::dropIfExists('document_types');
     }

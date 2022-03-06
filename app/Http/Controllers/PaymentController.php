@@ -16,13 +16,13 @@ use Illuminate\View\View;
 
 class PaymentController extends Controller
 {
-    public function store(Request $request ):RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         //$request['reference'] = uniqid($prefix = "", $more_entropy = false);
         $request['reference'] = (string) Str::random(32);
 
 
-        $paymentGateway = app()->make(PaymentGatewayContract::class ,$request->only('total', 'reference', 'description') );
+        $paymentGateway = app()->make(PaymentGatewayContract::class, $request->only('total', 'reference', 'description'));
         $response = $paymentGateway->createSession();
 
 
@@ -37,7 +37,7 @@ class PaymentController extends Controller
 
         $stockNumber = DB::table('products')
             ->select('stock_number')
-            ->where('id',  $data['id_product'])
+            ->where('id', $data['id_product'])
             ->first();
 
         $stockNumber = $stockNumber->stock_number;
@@ -53,7 +53,7 @@ class PaymentController extends Controller
         return redirect()->away($response['processUrl']);
     }
 
-    public function index(Request $request):View
+    public function index(Request $request): View
     {
         $text = trim($request->get('text'));
         $purchases = DB::table('purchases')->join('products', 'products.id', '=', 'purchases.id_product')
@@ -68,7 +68,7 @@ class PaymentController extends Controller
         return view('purchases.history', compact('purchases', 'text'));
     }
 
-    public function finish(Request $request, string $reference):View
+    public function finish(Request $request, string $reference): View
     {
         $dataTransaction = DB::table('purchases', )
             ->select('id_request', 'amount', 'id_product', 'price')
@@ -99,10 +99,10 @@ class PaymentController extends Controller
             ->update(['status' => $response['status']['status']]);
 
 
-        return view('purchases.finish', compact( 'status', 'amount', 'price', 'reference', 'nameProduct' ));
+        return view('purchases.finish', compact('status', 'amount', 'price', 'reference', 'nameProduct'));
     }
 
-    public function history(Request $request):View
+    public function history(Request $request): View
     {
         $text = trim($request->get('text'));
 
@@ -117,6 +117,4 @@ class PaymentController extends Controller
 
         return view('purchases.history', compact('purchases', 'text'));
     }
-
-
 }

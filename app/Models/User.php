@@ -17,11 +17,11 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use HasRoles;
 
-    public function countries():HasOne
+    public function countries(): HasOne
     {
         return $this->hasOne(Country::class);
     }
-    public function documentType():HasOne
+    public function documentType(): HasOne
     {
         return $this->hasOne(DocumentType::class);
     }
