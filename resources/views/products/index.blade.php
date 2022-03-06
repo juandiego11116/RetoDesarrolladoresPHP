@@ -26,6 +26,7 @@
                             <table class="table table-striped mt-2">
                                 <thead style="background-color:#6777ef">
                                 <th style="display: none;">ID</th>
+                                <th style="color:#fff;">Image</th>
                                 <th style="color:#fff;">Name</th>
                                 <th style="color:#fff;">Price</th>
                                 <th style="color:#fff;">Stock Number</th>
@@ -36,10 +37,12 @@
                                 @foreach ($products as $product)
                                     <tr>
                                         <td style="display: none;">{{ $product->id }}</td>
+                                        <td><img src="{{$product->photo}}" width="100" height="100"></td>
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->price }}</td>
                                         <td>{{ $product->stock_number }}</td>
-                                        <td>{{ $product->category }}</td>
+                                        <td>{{ $product->categories->name}}</td>
+
                                         <td>
                                             <form action="{{ route('products.destroy', $product->id) }}" method="POST">
                                                 @can('edit-product')

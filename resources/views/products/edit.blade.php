@@ -51,7 +51,12 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="category">Category</label>
-                                            {!! Form::text('category', null, array('class'=>'form-control')) !!}
+                                            <select type="text" name="id_category" class="form-control">
+                                                <option></option>
+                                                @foreach($categories as $category)
+                                                    <option>{{$category->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
