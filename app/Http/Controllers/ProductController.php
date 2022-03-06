@@ -20,11 +20,11 @@ class ProductController extends Controller
         $this->middleware('permission:delete-product', ['only'=>['destroy']]);
     }
 
-    public function index(Request $request):View
+    public function index(Request $request): View
     {
         $text = trim($request->get('text'));
         $products = Product::with([
-            'categories' => function($query) {
+            'categories' => function ($query) {
                 $query->select('id', 'name');
             }
         ])->orderBy('created_at', 'desc')
@@ -34,18 +34,17 @@ class ProductController extends Controller
         return view('products.index', compact('products', 'text'));
     }
 
-    public function create():View
+    public function create(): View
     {
         $categories = DB::table('categories')
-            ->select( 'id', 'name')
+            ->select('id', 'name')
             ->get();
 
         return view('products.create', compact('categories'));
     }
 
-    public function store(Request $request):RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-
         $request->validate([ // validar los datos mirar validacione en laravel
             'name' => 'required',
             'price' => 'required',
@@ -57,7 +56,7 @@ class ProductController extends Controller
         ]);
         $category = DB::table('categories')
             ->select('id')
-            ->where('name', '=',$request->id_category)
+            ->where('name', '=', $request->id_category)
             ->get();
 
         $file = $request->file('photo');
@@ -77,15 +76,16 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    public function edit(Product $product):View
+    public function edit(Product $product): View
     {
         $categories = DB::table('categories')
-            ->select( 'id', 'name')
+            ->select('id', 'name')
             ->get();
+
         return view('products.edit', compact('product', 'categories'));
     }
 
-    public function update(Request $request, $id):RedirectResponse
+    public function update(Request $request, $id): RedirectResponse
     {
         $this->validate($request, [
             'name' => 'required',
@@ -97,7 +97,7 @@ class ProductController extends Controller
         ]);
         $category = DB::table('categories')
             ->select('id')
-            ->where('name', '=',$request->id_category)
+            ->where('name', '=', $request->id_category)
             ->get();
         $request['id_category'] = $category[0]->id;
         $product = Product::find($id);
@@ -114,7 +114,7 @@ class ProductController extends Controller
     }
 
 
-    public function destroy(Product $product):RedirectResponse
+    public function destroy(Product $product): RedirectResponse
     {
         $product->delete();
         return redirect()->route('products.index');
