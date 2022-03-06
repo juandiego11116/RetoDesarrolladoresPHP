@@ -2,18 +2,28 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Product extends Model
 {
     use HasFactory;
 
-    public function categories():HasOne
+    public function categories():BelongsTo
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class, 'id_category');
     }
+
+    public function scopeSearch(Builder $query, $search): Builder
+    {
+        if ($search) {
+            return $query->where('name', 'LIKE', "%$search%");
+        }
+        return $query;
+    }
+
 
     protected $fillable = [
         'name',
