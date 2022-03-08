@@ -27,7 +27,7 @@
                                             <td>{{ $product->name }}</td>
                                             <td>{{ $product->price }}</td>
                                             <td>{{ $product->stock_number }}</td>
-                                            <td>{{ $product->category }}</td>
+                                            <td>{{ $product->id_category }}</td>
                                             <td>
                                                 <input type="number" name="amount" min="1" max="{{$product->stock_number}}" value="{{"amount"}}" form="purchases-form{{$product->id}}">
 
