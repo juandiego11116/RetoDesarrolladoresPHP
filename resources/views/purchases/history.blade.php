@@ -48,7 +48,7 @@
                                         <td>
                                             {{ $purchase->name }}
                                         </td>
-                                        <td>
+                                        <td step="0.01">
                                             {{ $purchase->price }}
                                         </td>
                                         <td>
@@ -59,6 +59,11 @@
                                         </td>
                                         <td>
                                             {{ $purchase->status }}
+                                            @if($purchase->status === 'APPROVED')
+                                                {{$button = 'Buy again   '}}
+                                            @else
+                                                {{$button = 'Pay again'}}
+                                            @endif
                                         </td>
                                         <td style="display: none;">{{$reference = "15january2021"}}</td>
                                         <td style="display: none;">{{ $description = "buy" }}</td>
@@ -73,18 +78,10 @@
                                                     <input type="hidden" name="amount" value="{{$amount}}" >
                                                     <input type="hidden" name="total" value="{{$total}}">
                                                     <input type="hidden" name="reference" value="{{$reference}}">
-                                                    <input type="hidden" name="description" value="{{$description = "BUY"}}">
-                                                    <input type="submit" name="btn" class="btn btn-primary" value="BUY">
+                                                    <input type="hidden" name="description" value="{{$description}}">
+                                                    <input type="submit" name="btn" class="btn btn-primary" value="{{$button}}">
                                             </form>
                                         </td>
-                                            <td>
-                                                <form action="{{ route('payment.show', $purchase->id_request) }}" method="PATCH">
-                                                    @csrf
-                                                    <input type="hidden" name="id_request" value="{{ $purchase->id_request }}">
-                                                    <input type="submit" name="btn" class="btn btn-primary" value="UPDATE">
-                                                </form>
-                                            </td>
-                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
