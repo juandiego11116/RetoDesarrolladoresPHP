@@ -18,7 +18,7 @@ class PaymentController extends Controller
 {
     public function store(Request $request): RedirectResponse
     {
-        //$request['reference'] = uniqid($prefix = "", $more_entropy = false);
+
         $request['reference'] = (string) Str::random(32);
 
 
