@@ -67,10 +67,22 @@
                                         <div class="form-group">
                                             <label for="description">Description</label>
                                             <textarea class="form-control" name="description" style="height: 100px"></textarea>
-
                                         </div>
+                                    </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                            <div class="form-group">
+                                                <label for="visible">Visible</label>
+                                                <select type="text" name="visible" class="form-control">
+                                                    <option></option>
+                                                    <option>Yes</option>
+                                                    <option>No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    <div>
                                         <button type="submit" class="btn btn-primary">Save</button>
                                     </div>
+
                                 </div>
                             </form>
 

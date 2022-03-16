@@ -52,6 +52,7 @@ class ProductController extends Controller
             'id_category' => 'required',
             'description' => 'required',
             'photo' => 'required',
+            'visible' => 'required',
 
         ]);
         $category = DB::table('categories')
@@ -62,7 +63,11 @@ class ProductController extends Controller
         $file = $request->file('photo');
         $photo = $file->hashName();
         $file->storeAs('public', $photo);
-
+        if($request->input('visible') == 'Yes'){
+            $visible = true;
+        } else{
+            $visible = false;
+        }
         $product = new Product();
         $product->name = $request->input('name');
         $product->price = $request->input('price');
@@ -70,7 +75,7 @@ class ProductController extends Controller
         $product->id_category = $category[0]->id;
         $product->description = $request->input('description');
         $product->photo = $photo;
-        $product->visible = true;
+        $product->visible = $visible;
         $product->save();
 
         return redirect()->route('products.index');
@@ -94,7 +99,14 @@ class ProductController extends Controller
             'id_category' => 'required',
             'description' => 'required',
             'photo' => 'required',
+            'visible' => 'required',
         ]);
+        if($request->input('visible') == 'Yes'){
+            $request['visible'] = true;
+        } else{
+            $request['visible'] = false;
+        }
+
         $category = DB::table('categories')
             ->select('id')
             ->where('name', '=', $request->id_category)
@@ -103,12 +115,14 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         $product->update($request->only(
+
             'name',
             'price',
             'stock_number',
             'id_category',
             'description',
-            'photo',
+            'photo' ,
+            'visible',
         ));
         return redirect()->route('products.index');
     }

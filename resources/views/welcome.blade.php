@@ -18,6 +18,7 @@
         @foreach ($products->chunk(4) as $chunk)
             <div class="row my-4">
                 @foreach ($chunk as $product)
+                    @if($product->visible == true)
                     <div class="col-3">
                         <div class="card">
                             <img src="{{$product->photo}}" class="card-img-top" alt="...">
@@ -44,6 +45,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 @endforeach
             </div>
         @endforeach

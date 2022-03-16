@@ -64,8 +64,20 @@
                                             <label for="description">Description</label>
                                             {!! Form::textarea('description', null, array('class'=>'form-control')) !!}
                                         </div>
-                                        <button type="submit" class="btn btn-primary">save</button>
                                     </div>
+                                   <div class="col-xs-12 col-sm-12 col-md-12">
+                                       <div class="form-group">
+                                           <label for="visible">Visible</label>
+                                           <select type="text" name="visible" class="form-control">
+                                               <option></option>
+                                               <option>Yes</option>
+                                               <option>No</option>
+                                           </select>
+                                       </div>
+                                   </div>
+                                   <div class="col-xs-12 col-sm-12 col-md-12">
+                                       <button type="submit" class="btn btn-primary">Save</button>
+                                   </div>
                                 </div>
                             {!! Form::close() !!}
                         </div>
