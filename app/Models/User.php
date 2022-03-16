@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -17,6 +19,13 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use HasRoles;
 
+    public function scopeSearch(Builder $query, $search): Builder
+    {
+        if ($search) {
+            return $query->where('name', 'LIKE', "%$search%");
+        }
+        return $query;
+    }
     public function countries(): HasOne
     {
         return $this->hasOne(Country::class);
