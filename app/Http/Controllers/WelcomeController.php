@@ -10,6 +10,7 @@ class WelcomeController extends Controller
     public function index()
     {
         $products = Product::inRandomOrder()
+            ->where('visible', '=' , true)
             ->with([
                 'categories' => function ($query) {
                     $query->select('id', 'name');
