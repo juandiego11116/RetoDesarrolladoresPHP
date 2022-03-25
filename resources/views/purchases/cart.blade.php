@@ -15,17 +15,18 @@
                                     <th style="display: none;">ID</th>
                                     <th style="color:#fff;">Name</th>
                                     <th style="color:#fff;">Price</th>
-                                    <th style="color:#fff;">Amount</th>
+                                    <th style="color:#fff;">Quantity</th>
                                     <th style="color:#fff;">Total</th>
                                     <th style="color:#fff;">Actions</th>
                                 </thead>
                                 <tbody>
-                                    @foreach($product as $product)
+
+                                    @foreach($products as $product)
                                         <tr>
                                             <td style="display: none;">{{ $product->id }}</td>
                                             <td>{{ $product->name }}</td>
                                             <td>{{ $product->price }}</td>
-                                            <td><input-total min="1" pamount="{{$amount}}"></input-total></td>
+                                            <td><input-total min="1" pamount="{{ request()->query('quantity') }}"></input-total></td>
                                             <td><label-total type="number" price="{{$product->price}}"></label-total></td>
                                             <td style="display: none;">{{$reference = ""}}</td>
                                             <td style="display: none;">{{ $description = "buy" }}</td>
@@ -36,8 +37,8 @@
                                                         <input type="hidden" name="id_product" value="{{ $product->id }}" id="pay-form{{$product->id}}">
                                                         <input type="hidden" name="name" value="{{ $product->name }}" id="pay-form{{$product->id}}">
                                                         <input type="hidden" name="price" value="{{$product->price}}" id="pay-form{{$product->id}}">
-                                                        <input type="hidden" name="amount" value="{{$amount}}" id="pay-form{{$product->id}}">
-                                                        <input type="hidden" name="total" value="{{$total = $amount * $product->price}}" id="pay-form{{$product->id}}">
+                                                        <input type="hidden" name="amount" value="{{request()->query('quantity')}}" id="pay-form{{$product->id}}">
+                                                        <input type="hidden" name="total" value="{{$total = request()->query('quantity') * $product->price}}" id="pay-form{{$product->id}}">
                                                         <input type="hidden" name="reference" value="{{$reference}}" id="pay-form{{$product->id}}">
                                                         <input type="hidden" name="description" value="{{$description}}" id="pay-form{{$product->id}}">
                                                         <button type="submit" name="btn" class="btn btn-primary" form="pay-form{{$product->id}}">BUY</button>
