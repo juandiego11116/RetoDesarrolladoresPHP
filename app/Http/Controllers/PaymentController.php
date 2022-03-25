@@ -25,19 +25,9 @@ class PaymentController extends Controller
         $paymentGateway = app()->make(PaymentGatewayContract::class, $request->only('total', 'reference', 'description'));
         $response = $paymentGateway->createSession();
 
-
-        $data = [
-            'id_product' => $request['id_product'],
-            'id_request' => $response['requestId'],
-            'price' => $request['price'],
-            'amount' => $request['amount'],
-            'status' => PaymentStatus::PENDING,
-            'reference' => $request['reference']
-        ];
-
         $stockNumber = DB::table('products')
             ->select('stock_number')
-            ->where('id', $data['id_product'])
+            ->where('id', $request['id_product'])
             ->first();
 
         $stockNumber = $stockNumber->stock_number;
@@ -45,11 +35,19 @@ class PaymentController extends Controller
         $stockNumber = $stockNumber - $amount;
         DB::table('products')
             ->select('stock_number')
-            ->where('id', 'LIKE', $data['id_product'])
+            ->where('id', $request['id_product'])
             ->update(['stock_number' => $stockNumber]);
 
+        $purchase = new Purchase();
+        $purchase->id_product = $request['id_product'];
+        $purchase->id_request = $response['requestId'];
+        $purchase->price = $request['price'];
+        $purchase->amount = $request['amount'];
+        $purchase->status = PaymentStatus::PENDING;
+        $purchase->reference = $request['reference'];
+        $purchase->deduct_from_stock = true;
 
-        Purchase::create($data);
+        $purchase->save();
         return redirect()->away($response['processUrl']);
     }
 
