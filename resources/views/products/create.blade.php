@@ -30,7 +30,6 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div id="div_file" class="form-group">
-
                                             <input type="file" id="add-photo" name="photo" class="form-control">
                                         </div>
                                     </div>
