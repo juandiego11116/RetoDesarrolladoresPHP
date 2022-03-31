@@ -20,7 +20,11 @@ class PaymentController extends Controller
     {
 
         $request['reference'] = (string) Str::random(32);
+        $price = $request->only('price');
+        $amount = $request->only('amount');
 
+        $total = $price['price'] * $amount['amount'];
+        $request['total'] = $total;
 
         $paymentGateway = app()->make(PaymentGatewayContract::class, $request->only('total', 'reference', 'description'));
         $response = $paymentGateway->createSession();
@@ -68,6 +72,7 @@ class PaymentController extends Controller
 
     public function finish(Request $request, string $reference): View
     {
+        //ingresar descuento del profucto segun el estado
         $dataTransaction = DB::table('purchases', )
             ->select('id_request', 'amount', 'id_product', 'price')
             ->where('reference', 'LIKE', $reference)
@@ -113,6 +118,21 @@ class PaymentController extends Controller
             ->orderBy('purchases.status', 'asc')
             ->paginate(5);
 
+
+        for ($i = 0; $i < 5; $i++){
+
+            $value = $purchases[$i]->id_request;
+            $request['id_request'] = $value;
+
+            $paymentGateway = app()->make(PaymentGatewayContract::class, $request->only('id_request'));
+            $response = $paymentGateway->createSessionConsult();
+
+            DB::table('purchases')
+                ->select('status')
+                ->where('id_request', 'LIKE', $response['requestId'])
+                ->update(['status' => $response['status']['status']]);
+
+        }
         return view('purchases.history', compact('purchases', 'text'));
     }
 }

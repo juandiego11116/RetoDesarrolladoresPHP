@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +20,7 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -27,15 +28,27 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::resource('roles', RolController::class);
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
-    Route::resource('purchases', \App\Http\Controllers\PurchaseController::class);
-    Route::resource('payment', \App\Http\Controllers\PaymentController::class);
-    Route::resource('history', \App\Http\Controllers\PaymentController::class);
+
+    //user
+
 });
+
+Route::group(['middleware' => ['auth', 'role:customer']], function () {
+    Route::get('history', [PaymentController::class, 'history'])->name('payment.history');
+    Route::get('payment/{payment}/finish', [PaymentController::class, 'finish'])->name('payment.finish');
+    Route::get('purchases/cart', [PurchaseController::class, 'addToCart'])->name('purchases.addToCart');
+    Route::get('purchases', [PurchaseController::class, 'cart'])->name('purchases.cart');
+    Route::resource('payment', PaymentController::class);
+    Route::resource('purchases', PurchaseController::class);
+    Route::get('purchases/show/{productId}', [PurchaseController::class, 'show'])->name('purchases.show');
+});
+
+
