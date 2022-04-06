@@ -57,13 +57,16 @@
                                         <td>
                                             {{$total = $amount*$purchase->price}}
                                         </td>
-                                        <td>
+                                        <td style="display: none;">
                                             {{ $purchase->status }}
                                             @if($purchase->status === 'APPROVED')
                                                 {{$button = 'Buy again   '}}
                                             @else
                                                 {{$button = 'Pay again'}}
                                             @endif
+                                        </td>
+                                        <td>
+                                            {{ $purchase->status }}
                                         </td>
                                         <td style="display: none;">{{$reference = "15january2021"}}</td>
                                         <td style="display: none;">{{ $description = "buy" }}</td>

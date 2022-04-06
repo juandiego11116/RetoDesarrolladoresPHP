@@ -63,9 +63,9 @@ class ProductController extends Controller
         $file = $request->file('photo');
         $photo = $file->hashName();
         $file->storeAs('public', $photo);
-        if($request->input('visible') == 'Yes'){
+        if ($request->input('visible') == 'Yes') {
             $visible = true;
-        } else{
+        } else {
             $visible = false;
         }
         $product = new Product();
@@ -101,9 +101,9 @@ class ProductController extends Controller
             'photo' => 'required',
             'visible' => 'required',
         ]);
-        if($request->input('visible') == 'Yes'){
+        if ($request->input('visible') == 'Yes') {
             $request['visible'] = true;
-        } else{
+        } else {
             $request['visible'] = false;
         }
 
@@ -115,13 +115,12 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         $product->update($request->only(
-
             'name',
             'price',
             'stock_number',
             'id_category',
             'description',
-            'photo' ,
+            'photo',
             'visible',
         ));
         return redirect()->route('products.index');
