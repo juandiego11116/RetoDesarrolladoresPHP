@@ -10,12 +10,10 @@ class CreatePurchasesTable extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->string('id_product');
-            $table->string('id_request');
-            $table->integer('price');
-            $table->integer('amount');
-            $table->string('status');
             $table->string('reference');
+            $table->integer('total');
+            $table->string('status');
+            $table->string('id_request');
             $table->string('deduct_from_stock');
             $table->timestamps();
         });
