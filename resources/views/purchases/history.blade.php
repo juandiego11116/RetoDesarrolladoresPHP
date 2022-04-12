@@ -24,9 +24,7 @@
                                 <th style="display: none;">ID</th>
                                 <th style="display: none;">ID Product</th>
                                 <th style="display: none;">ID Request</th>
-                                <th style="color:#fff;">Name</th>
-                                <th style="color:#fff;">Price</th>
-                                <th style="color:#fff;">Amount</th>
+                                <th style="color:#fff;">Reference</th>
                                 <th style="color:#fff;">Total</th>
                                 <th style="color:#fff;">Status</th>
                                 <th style="color:#fff;">Actions</th>
@@ -39,24 +37,14 @@
                                         <td
                                             style="display: none;">{{ $purchase->id }}
                                         </td>
-                                        <td
-                                            style="display: none;">{{ $purchase->id_product }}
-                                        </td>
-                                        <td
-                                            style="display: none;">{{ $purchase->id_request }}
-                                        </td>
                                         <td>
-                                            {{ $purchase->name }}
+                                            {{ $purchase->reference }}
                                         </td>
+
                                         <td step="0.01">
-                                            {{ $purchase->price }}
+                                            {{ $purchase->total }}
                                         </td>
-                                        <td>
-                                            {{ $amount = $purchase->amount }}
-                                        </td>
-                                        <td>
-                                            {{$total = $amount*$purchase->price}}
-                                        </td>
+
                                         <td style="display: none;">
                                             {{ $purchase->status }}
                                             @if($purchase->status === 'APPROVED')
@@ -75,15 +63,15 @@
                                                     @csrf
                                                     <input type="hidden" name="text" placeholder="search" value="{{$text}}">
                                                     <input type="hidden" name="id_purchase" value="{{ $purchase->id }}">
-                                                    <input type="hidden" name="id_product" value="{{ $purchase->id_product }}">
-                                                    <input type="hidden" name="name" value="{{ $purchase->name }}">
-                                                    <input type="hidden" name="price" value="{{ $purchase->price }}">
-                                                    <input type="hidden" name="amount" value="{{$amount}}" >
-                                                    <input type="hidden" name="total" value="{{$total}}">
+
+
+
                                                     <input type="hidden" name="reference" value="{{$reference}}">
                                                     <input type="hidden" name="description" value="{{$description}}">
                                                     <input type="submit" name="btn" class="btn btn-primary" value="{{$button}}">
+                                                <input type="submit" name="btn" class="btn btn-primary" value="View">
                                             </form>
+
                                         </td>
                                     @endforeach
                                 </tbody>
