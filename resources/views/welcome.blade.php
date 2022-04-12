@@ -27,7 +27,7 @@
                                 <h6 class="card-subtitle mb-2 text-muted">$ {{ $product->price }}</h6>
                                 <p class="card-text">{{ Str::limit($product->description, 60) }}.</p>
                                 <div class="btn-group btn-block w-100" role="group" aria-label="Basic example">
-                                    <form id="add-cart-{{ $product->id }}" action="{{ route('purchases.addToCart') }}" method="get">
+                                    <form id="add-cart-{{ $product->id }}" action="{{ route('cart.addToCart') }}" method="get">
                                         <input type="hidden" name="productId" value="{{ $product->id }}">
                                         <button type="submit" class="btn btn-default" form="add-cart-{{ $product->id }}">
                                             <em class="fas fa-cart-plus"></em> Buy
