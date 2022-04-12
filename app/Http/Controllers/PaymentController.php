@@ -18,121 +18,77 @@ class PaymentController extends Controller
 {
     public function store(Request $request): RedirectResponse
     {
+        $reference = (string) Str::random(32);
+        $subtotal = $request->input('amount') * $request->input('price');
+        $data = [];
 
-        $request['reference'] = (string) Str::random(32);
-        $price = $request->only('price');
-        $amount = $request->only('amount');
+        $data[$request['id_product']] = [
+            'amount' => $request->input('amount'),
+            'price' => $request->input('price'),
+            'subtotal' => $subtotal,
+        ];
 
-        $total = $price['price'] * $amount['amount'];
-        $request['total'] = $total;
+        $paymentGateway = app()->make(PaymentGatewayContract::class);
+        $response = $paymentGateway->createSession($reference, $subtotal);
 
-        $paymentGateway = app()->make(PaymentGatewayContract::class, $request->only('total', 'reference', 'description'));
-        $response = $paymentGateway->createSession();
 
-        $stockNumber = DB::table('products')
-            ->select('stock_number')
-            ->where('id', $request['id_product'])
-            ->first();
-
-        $stockNumber = $stockNumber->stock_number;
-        $amount = $request['amount'];
-        $stockNumber = $stockNumber - $amount;
-        DB::table('products')
-            ->select('stock_number')
-            ->where('id', $request['id_product'])
-            ->update(['stock_number' => $stockNumber]);
 
         $purchase = new Purchase();
-        $purchase->id_product = $request['id_product'];
-        $purchase->id_request = $response['requestId'];
-        $purchase->price = $request['price'];
-        $purchase->amount = $request['amount'];
+        $purchase->reference = $reference;
+        $purchase->total = $subtotal;
         $purchase->status = PaymentStatus::PENDING;
-        $purchase->reference = $request['reference'];
-        $purchase->deduct_from_stock = true;
-
+        $purchase->id_request = $response['requestId'];
+        $purchase->deduct_from_stock = false;
         $purchase->save();
+
+        $purchase->products()->attach($data);
+
         return redirect()->away($response['processUrl']);
-    }
-
-    public function index(Request $request): View
-    {
-        $text = trim($request->get('text'));
-        $purchases = DB::table('purchases')->join('products', 'products.id', '=', 'purchases.id_product')
-            ->select('purchases.id', 'purchases.id_product', 'products.name', 'purchases.id_request', 'purchases.price', 'purchases.amount', 'purchases.status')
-            ->where('purchases.price', 'LIKE', '%'.$text.'%')
-            ->orWhere('products.name', 'LIKE', '%'.$text.'%')
-            ->orWhere('purchases.amount', 'LIKE', '%'.$text.'%')
-            ->orWhere('purchases.status', 'LIKE', '%'.$text.'%')
-            ->orderBy('purchases.status', 'asc')
-            ->paginate(5);
-
-        return view('purchases.history', compact('purchases', 'text'));
     }
 
     public function finish(Request $request, string $reference): View
     {
-        //ingresar descuento del profucto segun el estado
-        $dataTransaction = DB::table('purchases', )
-            ->select('id_request', 'amount', 'id_product', 'price')
-            ->where('reference', 'LIKE', $reference)
+        $purchases = DB::table('purchases')
+            ->select('id_request', 'total', 'status')
+            ->where('reference', $reference)
             ->get();
-        $nameProduct = DB::table('products')
-            ->select('name')
-            ->where('id', '=', $dataTransaction[0]->id_product)
+        $products = DB::table('purchase_product')
+            ->join('products', 'purchase_product.product_id', '=', 'products.id')
+            ->select('products.id','products.name', 'purchase_product.amount', '')
+            ->where('id', '=', $purchases[0]->id_product)
             ->get();
-        $nameProduct = $nameProduct[0]->name;
-        $amount = $dataTransaction[0]->amount;
-        $price = $dataTransaction[0]->price;
 
-        $id_request = $dataTransaction ;
+
+        $id_request = $purchases ;
         $id_request = $id_request->toArray();
         $id_request = $id_request[0];
         $id_request = $id_request->id_request;
-        $request['id_request'] = $id_request;
 
-        $paymentGateway = app()->make(PaymentGatewayContract::class, $request->only('id_request'));
-        $response = $paymentGateway->createSessionConsult();
 
-        $status = $response['status']['status'];
+        $paymentGateway = app()->make(PaymentGatewayContract::class);
+        $response = $paymentGateway->createSessionConsult($purchases->id_request);
+
+
 
         DB::table('purchases')
             ->select('status')
             ->where('id_request', 'LIKE', $response['requestId'])
             ->update(['status' => $response['status']['status']]);
+        $stockNumber = DB::table('products')
+            ->select('stock_number')
+            ->where('id', $request['id_product'])
+            ->first();
 
-
-        return view('purchases.finish', compact('status', 'amount', 'price', 'reference', 'nameProduct'));
-    }
-
-    public function history(Request $request): View
-    {
-        $text = trim($request->get('text'));
-
-        $purchases = DB::table('purchases')->join('products', 'products.id', '=', 'purchases.id_product')
-            ->select('purchases.id', 'purchases.id_product', 'products.name', 'purchases.id_request', 'purchases.price', 'purchases.amount', 'purchases.status')
-            ->where('purchases.price', 'LIKE', '%'.$text.'%')
-            ->orWhere('products.name', 'LIKE', '%'.$text.'%')
-            ->orWhere('purchases.amount', 'LIKE', '%'.$text.'%')
-            ->orWhere('purchases.status', 'LIKE', '%'.$text.'%')
-            ->orderBy('purchases.status', 'asc')
-            ->paginate(5);
-
-
-        for ($i = 0; $i < 5; $i++){
-
-            $value = $purchases[$i]->id_request;
-            $request['id_request'] = $value;
-
-            $paymentGateway = app()->make(PaymentGatewayContract::class, $request->only('id_request'));
-            $response = $paymentGateway->createSessionConsult();
-
-            DB::table('purchases')
-                ->select('status')
-                ->where('id_request', 'LIKE', $response['requestId'])
-                ->update(['status' => $response['status']['status']]);
-
+        if ($response['status']['status'] == PaymentStatus::APPROVED) {
+            $stockNumber = $stockNumber->stock_number;
+            $amount = $request['amount'];
+            $stockNumber = $stockNumber - $amount;
+            DB::table('products')
+                ->select('stock_number')
+                ->where('id', $request['id_product'])
+                ->update(['stock_number' => $stockNumber]);
         }
-        return view('purchases.history', compact('purchases', 'text'));
+
+        return view('purchases.finish', compact( , 'price', 'reference', 'nameProduct'));
     }
 }
