@@ -15,7 +15,7 @@ class ProductFactory extends Factory
             'stock_number' => $this->faker->randomNumber(2),
             'id_category' => '1',
             'description' => $this->faker->word(),
-            'photo' => $this->faker->image(storage_path('')),
+            'photo' => $this->faker->image(storage_path('app/public')),
             'visible' => true,
         ];
     }
