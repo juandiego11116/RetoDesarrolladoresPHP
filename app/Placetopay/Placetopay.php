@@ -9,37 +9,31 @@ use Psy\Util\Str;
 
 class Placetopay implements \App\Placetopay\PaymentGatewayContract
 {
-    public function createSession(): array
+    public function createSession(string $reference, int $subtotal) : array
     {
-        $request = $this->makeRequest();
+        $request = $this->makeRequest($reference, $subtotal);
 
         $response = Http::post(config('placetopay.uri'). '/api/session', $request);
 
         return $response->json();
     }
 
-    public function createSessionConsult(): array
+    public function createSessionConsult(string $id_request): array
     {
-        $request = request();
-
-        $requestId = $request['id_request'];
-
         $request = ['auth' => $this->makeAuth()];
 
-        $response = Http::post(config('placetopay.uri'). '/api/session/'.$requestId, $request);
+        $response = Http::post(config('placetopay.uri'). '/api/session/'.$id_request, $request);
 
         return $response->json();
     }
 
-    public function makeRequest(): array
+    public function makeRequest(string $reference, int $subtotal): array
     {
-        $request = request();
-        $reference = $request->get('reference');
 
         return [
             'locale'=> 'es_CO',
             'auth' => $this->makeAuth(),
-            'payment' => $this->makePayment($request),
+            'payment' => $this->makePayment($reference, $subtotal),
             'allowPartial' => false,
             'expiration' => Carbon::now(new \DateTimeZone('America/Bogota'))->addHour()->toIso8601String(),
             'returnUrl' => route('payment.finish', $reference),
@@ -61,17 +55,14 @@ class Placetopay implements \App\Placetopay\PaymentGatewayContract
         return $data;
     }
 
-    public function makePayment(Request $request): array
+    public function makePayment(string $reference, int $subtotal): array
     {
-        $reference = $request->get('reference');
-        $description = $request->get('description');
-        $total = $request->get('total');
         return [
                 'reference' => $reference,
-                'description' => $description,
+                'description' => 'placetopay',
                 'amount'=> [
                      'currency' => 'USD',
-                    'total' => $total,
+                    'total' => $subtotal,
                 ],
         ];
     }
