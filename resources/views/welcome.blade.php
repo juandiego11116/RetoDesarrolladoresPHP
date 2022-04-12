@@ -28,19 +28,16 @@
                                 <p class="card-text">{{ Str::limit($product->description, 60) }}.</p>
                                 <div class="btn-group btn-block w-100" role="group" aria-label="Basic example">
                                     <form id="add-cart-{{ $product->id }}" action="{{ route('purchases.addToCart') }}" method="get">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{ $product->id }}">
+                                        <input type="hidden" name="productId" value="{{ $product->id }}">
+                                        <button type="submit" class="btn btn-default" form="add-cart-{{ $product->id }}">
+                                            <em class="fas fa-cart-plus"></em> Buy
+                                        </button>
                                     </form>
-                                    <button type="submit" class="btn btn-default" form="add-cart-{{ $product->id }}">
-                                        <em class="fas fa-cart-plus"></em> Buy
-                                    </button>
-                                    <form id="product-view{{ $product->id }}" action="{{ route('purchases.show') }}" method="get">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{ $product->id }}">
-                                    </form>
-                                    <button type="submit" class="btn btn-default" form="product-view{{ $product->id }}">
+
+                                   <a href="{{ route('purchases.show', ['productId' => $product->id]) }}" class="btn btn-default">
                                         <em class="fas fa-cart-plus"></em> View
-                                    </button>
+                                    </a>
+
                                 </div>
                             </div>
                         </div>
