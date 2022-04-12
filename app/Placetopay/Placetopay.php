@@ -9,7 +9,7 @@ use Psy\Util\Str;
 
 class Placetopay implements \App\Placetopay\PaymentGatewayContract
 {
-    public function createSession(string $reference, int $subtotal) : array
+    public function createSession(string $reference, int $subtotal): array
     {
         $request = $this->makeRequest($reference, $subtotal);
 
@@ -29,7 +29,6 @@ class Placetopay implements \App\Placetopay\PaymentGatewayContract
 
     public function makeRequest(string $reference, int $subtotal): array
     {
-
         return [
             'locale'=> 'es_CO',
             'auth' => $this->makeAuth(),
