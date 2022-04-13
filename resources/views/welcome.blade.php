@@ -15,11 +15,19 @@
             </div>
         </div>
         <hr>
+
+        <form action="{{ route('cart.index') }}" method="get">
+
+            <button type="submit" class="btn btn-primary">
+                 Cart
+            </button>
+        </form>
         @foreach ($products->chunk(4) as $chunk)
             <div class="row my-4">
                 @foreach ($chunk as $product)
                     @if($product->visible == true)
                     <div class="col-3">
+
                         <div class="card">
                             <img src="{{$product->photo}}" class="card-img-top" alt="...">
                             <div class="card-body">
@@ -29,6 +37,7 @@
                                 <div class="btn-group btn-block w-100" role="group" aria-label="Basic example">
                                     <form id="add-cart-{{ $product->id }}" action="{{ route('cart.addToCart') }}" method="get">
                                         <input type="hidden" name="productId" value="{{ $product->id }}">
+                                        <input type="hidden" name="quantity" value=1>
                                         <button type="submit" class="btn btn-default" form="add-cart-{{ $product->id }}">
                                             <em class="fas fa-cart-plus"></em> Buy
                                         </button>

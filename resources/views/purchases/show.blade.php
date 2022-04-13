@@ -9,7 +9,18 @@
                 </div>
             </div>
         </div>
+        <form action="{{ route('cart.index') }}" method="get">
 
+            <button type="submit" class="btn btn-primary">
+                Cart
+            </button>
+        </form>
+        <form action="{{ route('welcome') }}" method="get">
+
+            <button type="submit" class="btn btn-primary">
+                Shopping
+            </button>
+        </form>
         <div class="row">
             <div class="col">
                 <div class="card mb-3">
@@ -43,13 +54,14 @@
                                 <p class="card-text"><small class="text-muted">Available stock: {{ $product[0]['stock_number'] }}</small></p>
                                 <div class="card-text mb-2">
 
-                                    <form id="add-cart{{ $product[0]['id'] }}" action="{{ route('purchases.addToCart') }}" method="get">
+                                    <form id="add-cart{{ $product[0]['id'] }}" action="{{ route('cart.addToCart') }}" method="get">
                                         <input type="hidden" name="productId" value="{{ $product[0]['id'] }}">
                                         <div class="input-group mb-3">
                                             <input type="number" name="quantity" class="form-control" value="1" min="1" max="{{$product[0]['stock_number']}}">
                                             <button type="submit" class="btn btn-outline-dark">
                                                 <em class="fas fa-cart-plus" ></em> Add to Cart
                                             </button>
+
                                         </div>
                                     </form>
                                 </div>
@@ -61,3 +73,10 @@
         </div>
     </div>
 @endsection
+<script>
+    import AddToCardt from "../../js/components/AddToCart";
+    import AddToCard from "../../js/components/AddToCart";
+    export default {
+        components: {AddToCard, AddToCardt}
+    }
+</script>
