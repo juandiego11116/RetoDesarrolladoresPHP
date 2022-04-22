@@ -17,6 +17,19 @@
                                     </div>
                                 </div>
                             </form>
+                            <form action="{{ route('welcome') }}" method="get">
+                                <button type="submit" class="btn btn-primary">
+                                    Shopping
+                                </button>
+                            </form>
+                            <form action="{{ route('cart.index') }}" method="get">
+                                @php($count = Cart::count())
+                                <button type="submit" class="btn btn-primary">
+                                    Cart <span class="badge badge-light">
+                                        {{$count}}
+                                     </span>
+                                </button>
+                            </form>
                         </div>
                         <div class="card-body">
                             <table class="table table-striped mt-2">
@@ -48,7 +61,7 @@
                                         <td style="display: none;">
                                             {{ $purchase->status }}
                                             @if($purchase->status === 'APPROVED')
-                                                {{$button = 'Buy again   '}}
+                                                {{$button = 'Buy again'}}
                                             @else
                                                 {{$button = 'Pay again'}}
                                             @endif
@@ -59,18 +72,15 @@
                                         <td style="display: none;">{{$reference = "15january2021"}}</td>
                                         <td style="display: none;">{{ $description = "buy" }}</td>
                                         <td>
-                                            <form action="{{ route('payment.store') }}" method="POST">
+                                            <form action="{{ route('payment.store.again') }}" method="POST">
                                                     @csrf
-                                                    <input type="hidden" name="text" placeholder="search" value="{{$text}}">
                                                     <input type="hidden" name="id_purchase" value="{{ $purchase->id }}">
-
-
-
-                                                    <input type="hidden" name="reference" value="{{$reference}}">
                                                     <input type="hidden" name="description" value="{{$description}}">
-                                                    <input type="submit" name="btn" class="btn btn-primary" value="{{$button}}">
-                                                <input type="submit" name="btn" class="btn btn-primary" value="View">
+                                                    <input type="submit" class="btn btn-primary" value="{{$button}}">
                                             </form>
+                                            <a href="{{ route('purchases.show', ['purchase' => $purchase->id]) }}" class="btn btn-default">
+                                                <button type="submit" name="btn" class="btn btn-primary">view</button>
+                                            </a>
 
                                         </td>
                                     @endforeach
