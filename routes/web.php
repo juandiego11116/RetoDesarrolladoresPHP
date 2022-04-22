@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,7 @@ use App\Http\Controllers\WelcomeController;
 |
 */
 
-Route::get('/', [WelcomeController::class, 'index']);
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -36,19 +37,19 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::resource('roles', RolController::class);
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
-
-    //user
-
 });
 
 Route::group(['middleware' => ['auth', 'role:customer']], function () {
-    Route::get('history', [PaymentController::class, 'history'])->name('payment.history');
+    Route::get('history', [PurchaseController::class, 'history'])->name('payment.history');
     Route::get('payment/{payment}/finish', [PaymentController::class, 'finish'])->name('payment.finish');
-    Route::get('purchases/cart', [PurchaseController::class, 'addToCart'])->name('purchases.addToCart');
-    Route::get('purchases', [PurchaseController::class, 'cart'])->name('purchases.cart');
+    Route::get('cart.addToCart', [CartController::class, 'store'])->name('cart.addToCart');
+    Route::get('cart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('show', [CartController::class, 'show'])->name('cart.show');
+    Route::get('count', [CartController::class, 'count'])->name('cart.count');
+    Route::post('update', [CartController::class, 'update'])->name('cart.update.up');
+    Route::post('delete', [CartController::class, 'delete'])->name('cart.delete');
+    Route::post('store.again', [PaymentController::class, 'storeAgain'])->name('payment.store.again');
     Route::resource('payment', PaymentController::class);
     Route::resource('purchases', PurchaseController::class);
-    Route::get('purchases/show/{productId}', [PurchaseController::class, 'show'])->name('purchases.show');
+    Route::get('cart/show/{productId}', [CartController::class, 'show'])->name('cart.show');
 });
-
-
