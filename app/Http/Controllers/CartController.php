@@ -6,7 +6,6 @@ use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class CartController extends Controller
 {
@@ -23,7 +22,7 @@ class CartController extends Controller
         $products =  Cart::content();
         if ($products->isEmpty()) {
             return redirect()->route('welcome')->with('status', 'The cart is void');
-        };
+        }
         return view('cart', compact('products'));
     }
 
@@ -34,7 +33,7 @@ class CartController extends Controller
         return back();
     }
 
-    public function update(Request $request)
+    public function update(Request $request): RedirectResponse
     {
         Cart::update($request->rowId, $request->quantity);
         return back();

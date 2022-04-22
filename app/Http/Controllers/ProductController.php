@@ -45,7 +45,7 @@ class ProductController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([ // validar los datos mirar validacione en laravel
+        $request->validate([
             'name' => 'required',
             'price' => 'required',
             'stock_number' => 'required',

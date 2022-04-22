@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Purchase;
-use App\Placetopay\PaymentGatewayContract;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-use phpDocumentor\Reflection\Types\Void_;
 
 class PurchaseController extends Controller
 {
@@ -33,7 +30,9 @@ class PurchaseController extends Controller
             ->select('id', 'id_request', 'total', 'status', 'deduct_from_stock', 'reference')
             ->where('id', $purchase)
             ->get();
+
         $reference = $purchases[0]->reference;
+
         $products = DB::table('purchase_product')
             ->join('products', 'purchase_product.product_id', '=', 'products.id')
             ->select('products.id', 'products.name', 'purchase_product.amount', 'purchase_product.subtotal', 'purchase_product.price', 'products.stock_number')
@@ -50,11 +49,7 @@ class PurchaseController extends Controller
             'categories' => function ($query) {
                 $query->select('id', 'name');
             }
-        ])
-
-            ->get('id', 'name', 'price', 'photo', 'stock_number', 'visible', 'id_category');
-        dd($product);
-
+        ])->get('id', 'name', 'price', 'photo', 'stock_number', 'visible', 'id_category');
 
         return back();
     }
@@ -70,7 +65,6 @@ class PurchaseController extends Controller
             ->orWhere('status', 'LIKE', '%'.$text.'%')
             ->orderBy('status', 'asc')
             ->paginate(5);
-
 
         return view('purchases.history', compact('purchases', 'text'));
     }

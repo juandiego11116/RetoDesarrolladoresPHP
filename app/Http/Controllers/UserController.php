@@ -60,7 +60,6 @@ class UserController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        //cambiar  a form request
         $this->validate($request, [
             'name' => 'required',
             'last_name' => 'required',
@@ -164,6 +163,7 @@ class UserController extends Controller
         User::find($id)->delete();
         return redirect()->route('users.index');
     }
+
     public function getUsers(Request $request): JsonResponse
     {
         $filter = $request->search;
