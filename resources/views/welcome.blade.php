@@ -17,11 +17,18 @@
         <hr>
 
         <form action="{{ route('cart.index') }}" method="get">
-
+            @php($count = Cart::count())
             <button type="submit" class="btn btn-primary">
-                 Cart
+                 Cart <span class="badge badge-light">
+                    {{$count}}
+                </span>
             </button>
         </form>
+        @if (session('status'))
+            <div class="alert alert-primary" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
         @foreach ($products->chunk(4) as $chunk)
             <div class="row my-4">
                 @foreach ($chunk as $product)
@@ -43,7 +50,7 @@
                                         </button>
                                     </form>
 
-                                   <a href="{{ route('purchases.show', ['productId' => $product->id]) }}" class="btn btn-default">
+                                   <a href="{{ route('cart.show', ['productId' => $product->id]) }}" class="btn btn-default">
                                         <em class="fas fa-cart-plus"></em> View
                                     </a>
 
