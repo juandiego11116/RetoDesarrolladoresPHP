@@ -22,7 +22,6 @@ class VerifyPurchaseStatus extends Command
             ->get();
 
         foreach ($purchases as $purchase) {
-
             $paymentGateway = app()->make(PaymentGatewayContract::class);
             $response = $paymentGateway->createSessionConsult($purchase->id_request);
 

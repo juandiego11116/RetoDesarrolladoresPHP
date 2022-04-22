@@ -8,12 +8,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-
 class CartController extends Controller
 {
     public function store(Request $request): RedirectResponse
     {
-
         $product = Product::find($request->productId);
 
         Cart::add($product->id, $product->name, $request->quantity, $product->price);
@@ -23,15 +21,14 @@ class CartController extends Controller
     public function index()
     {
         $products =  Cart::content();
-        if ($products->isEmpty()){
-            return redirect()->route('welcome')->with('status','The cart is void');
+        if ($products->isEmpty()) {
+            return redirect()->route('welcome')->with('status', 'The cart is void');
         };
         return view('cart', compact('products'));
     }
 
-    public function delete(Request $request):RedirectResponse
+    public function delete(Request $request): RedirectResponse
     {
-
         Cart::remove($request->rowId);
 
         return back();
@@ -39,13 +36,11 @@ class CartController extends Controller
 
     public function update(Request $request)
     {
-
         Cart::update($request->rowId, $request->quantity);
         return back();
     }
     public function show(int $productId)
     {
-
         $product = Product::with([
             'categories' => function ($query) {
                 $query->select('id', 'name');
@@ -55,9 +50,4 @@ class CartController extends Controller
 
         return view('show', compact('product'));
     }
-
-
-
-
-
 }
