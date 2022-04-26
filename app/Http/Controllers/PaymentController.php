@@ -67,11 +67,12 @@ class PaymentController extends Controller
 
         if (($response['status']['status'] == PaymentStatus::APPROVED) and ($purchases[0]->deduct_from_stock == false)) {
             $i = 0;
+
             foreach ($products as $product) {
                 DB::table('products')
                     ->select('stock_number')
                     ->where('id', $request['id_product'])
-                    ->update(['stock_number' => $product[$i]->stock_number - $product[$i]->amount]);
+                    ->update(['stock_number' => $products[$i]->stock_number - $products[$i]->amount]);
                 $i++;
             }
             DB::table('purchases')
