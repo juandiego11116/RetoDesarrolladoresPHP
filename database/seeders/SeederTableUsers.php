@@ -36,5 +36,6 @@ class SeederTableUsers extends Seeder
             'email_verified_at' => now(),
         ]);
         $customer->assignRole('customer');
+        User::factory(20)->create();
     }
 }
