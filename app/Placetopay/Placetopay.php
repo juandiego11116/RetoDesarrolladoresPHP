@@ -9,9 +9,9 @@ use Psy\Util\Str;
 
 class Placetopay implements \App\Placetopay\PaymentGatewayContract
 {
-    public function createSession(string $reference, int $subtotal): array
+    public function createSession(string $reference, int $total): array
     {
-        $request = $this->makeRequest($reference, $subtotal);
+        $request = $this->makeRequest($reference, $total);
 
         $response = Http::post(config('placetopay.uri'). '/api/session', $request);
 
@@ -27,12 +27,12 @@ class Placetopay implements \App\Placetopay\PaymentGatewayContract
         return $response->json();
     }
 
-    public function makeRequest(string $reference, int $subtotal): array
+    public function makeRequest(string $reference, int $total): array
     {
         return [
             'locale'=> 'es_CO',
             'auth' => $this->makeAuth(),
-            'payment' => $this->makePayment($reference, $subtotal),
+            'payment' => $this->makePayment($reference, $total),
             'allowPartial' => false,
             'expiration' => Carbon::now(new \DateTimeZone('America/Bogota'))->addHour()->toIso8601String(),
             'returnUrl' => route('payment.finish', $reference),
@@ -54,14 +54,14 @@ class Placetopay implements \App\Placetopay\PaymentGatewayContract
         return $data;
     }
 
-    public function makePayment(string $reference, int $subtotal): array
+    public function makePayment(string $reference, int $total): array
     {
         return [
                 'reference' => $reference,
                 'description' => 'placetopay',
                 'amount'=> [
                      'currency' => 'USD',
-                    'total' => $subtotal,
+                    'total' => $total,
                 ],
         ];
     }
