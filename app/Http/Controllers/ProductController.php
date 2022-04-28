@@ -58,9 +58,11 @@ class ProductController extends Controller
         $category = DB::table('categories')
             ->select('id')
             ->where('name', '=', $request->id_category)
+            ->orWhere('id', '=', $request->id_category)
             ->get();
 
         $file = $request->file('photo');
+
         $photo = $file->hashName();
         $file->storeAs('public', $photo);
         if ($request->input('visible') == 'Yes') {
