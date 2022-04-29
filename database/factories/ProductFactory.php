@@ -13,7 +13,7 @@ class ProductFactory extends Factory
             'name' => $this->faker->word(),
             'price' => $this->faker->randomNumber(2),
             'stock_number' => $this->faker->randomNumber(2),
-            'id_category' => '1',
+            'id_category' => Category::factory()->create(),
             'description' => $this->faker->word(),
             'photo' => $this->faker->image(storage_path('app/public')),
             'visible' => true,
