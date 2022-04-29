@@ -38,6 +38,7 @@ class CartController extends Controller
         Cart::update($request->rowId, $request->quantity);
         return back();
     }
+
     public function show(int $productId)
     {
         $product = Product::with([

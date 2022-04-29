@@ -71,10 +71,9 @@ class RegisterController extends Controller
      */
     protected function create(array $data): User
     {
-
         $documentTypes = DB::table('document_types')
             ->select('id')
-            ->where('name',  $data['document_type'])
+            ->where('name', $data['document_type'])
             ->get();
 
         $countries = DB::table('countries')
