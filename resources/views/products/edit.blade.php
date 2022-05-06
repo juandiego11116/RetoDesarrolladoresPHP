@@ -21,7 +21,7 @@
                                     </button>
                                 </div>
                             @endif
-                            {!! Form::model($product, ['method' => 'PATCH','route' => ['products.update', $product->id]]) !!}
+                            {!! Form::model($product, ['method' => 'POST','route' => ['products.update', $product->id]]) !!}
                                <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
