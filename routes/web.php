@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
 Route::group(['middleware' => ['auth', 'role:customer']], function () {
     Route::get('history', [PurchaseController::class, 'history'])->name('payment.history');
-    Route::get('payment/{payment}/finish', [PaymentController::class, 'finish'])->name('payment.finish');
+    Route::get('payment/{reference}/finish', [PaymentController::class, 'finish'])->name('payment.finish');
     Route::get('cart.addToCart', [CartController::class, 'store'])->name('cart.addToCart');
     Route::get('cart', [CartController::class, 'index'])->name('cart.index');
     Route::get('show', [CartController::class, 'show'])->name('cart.show');
