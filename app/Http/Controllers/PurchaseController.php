@@ -10,20 +10,6 @@ use Illuminate\View\View;
 
 class PurchaseController extends Controller
 {
-    public function create(Request $request): View
-    {
-        $input = $request->get('product');
-        $quantity = $request->get('amount');
-
-        $product = DB::table('products')
-            ->select('id', 'name', 'price')
-            ->where('id', $input)
-            ->orderBy('name', 'asc')
-            ->paginate(5);
-
-        return view('purchases.cart', compact('product', 'input', 'quantity'));
-    }
-
     public function show(int $purchase): View
     {
         $purchases = DB::table('purchases')
@@ -41,18 +27,6 @@ class PurchaseController extends Controller
 
         return view('purchases.show', compact('purchases', 'products', 'reference'));
     }
-    public function store(Request $request): RedirectResponse
-    {
-        $text = trim($request->get('id'));
-
-        $product = Product::with([
-            'categories' => function ($query) {
-                $query->select('id', 'name');
-            }
-        ])->get('id', 'name', 'price', 'photo', 'stock_number', 'visible', 'id_category');
-
-        return back();
-    }
 
     public function history(Request $request): View
     {
@@ -69,16 +43,4 @@ class PurchaseController extends Controller
         return view('purchases.history', compact('purchases', 'text'));
     }
 
-    public function addToCart(Request $request): View
-    {
-        $products = Product::with([
-            'categories' => function ($query) {
-                $query->select('id', 'name');
-            }
-        ])->where('id', '=', $request->query('productId'))
-            ->orderBy('id_category', 'asc')
-            ->paginate(5, ['id', 'name', 'price', 'photo', 'stock_number', 'visible', 'id_category']);
-
-        return view('purchases.cart', compact('products'));
-    }
 }

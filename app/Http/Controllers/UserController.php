@@ -26,11 +26,6 @@ class UserController extends Controller
         $this->middleware('permission:delete-user', ['only'=>['destroy']]);
     }
 
-    public function search(Request $request): View
-    {
-        $users = User::where('name', 'like', '%'. $request->text . '%')->take(10)->get();
-        return view('users.index', compact('users'));
-    }
     public function index(Request $request): View
     {
         $text = trim($request->get('text'));
@@ -95,7 +90,6 @@ class UserController extends Controller
         $user->password = Hash::make($request->input('password'));
         $user->save();
         $user->assignRole($request->input('roles'));
-
 
         return redirect()->route('users.index');
     }
@@ -162,14 +156,5 @@ class UserController extends Controller
     {
         User::find($id)->delete();
         return redirect()->route('users.index');
-    }
-
-    public function getUsers(Request $request): JsonResponse
-    {
-        $filter = $request->search;
-
-        $users = Libro::where('name', $filter)->get();
-
-        return response()->json($users, 200);
     }
 }
