@@ -42,5 +42,4 @@ class PurchaseController extends Controller
 
         return view('purchases.history', compact('purchases', 'text'));
     }
-
 }
