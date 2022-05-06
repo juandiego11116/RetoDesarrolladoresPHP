@@ -111,9 +111,10 @@ class ProductController extends Controller
 
         $category = DB::table('categories')
             ->select('id')
-            ->where('name', '=', $request->id_category)
-            ->get();
-        $request['id_category'] = $category[0]->id;
+            ->where('name', $request->id_category)
+            ->orWhere('id', $request->id_category)
+            ->first();
+        $request['id_category'] = $category->id;
         $product = Product::find($id);
 
         $product->update($request->only(
