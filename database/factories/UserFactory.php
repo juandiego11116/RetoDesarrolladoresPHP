@@ -16,6 +16,12 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'lastName' => $this->faker->lastName(),
+            'document_type' => $this->faker->sentence(1),
+            'document' => $this->faker->numberBetween(0000000000, 9999999999),
+            'country' => $this->faker->country(),
+            'address' => $this->faker->address(),
+            'phoneNumber' => $this->faker->phoneNumber(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
