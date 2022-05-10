@@ -6,7 +6,7 @@
                 <h5 class="modal-title">Change Password</h5>
                 <button type="button" aria-label="Close" class="close outline-none" data-dismiss="modal">×</button>
             </div>
-            <form method="POST" id='changePasswordForm'>
+            <form method="GET" id='changePasswordForm'>
             <div class="modal-body">
                 @if ($errors->any())
                     <div class="alert alert-danger">

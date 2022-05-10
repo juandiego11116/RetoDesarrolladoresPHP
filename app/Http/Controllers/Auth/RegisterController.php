@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -51,12 +52,12 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'lastName' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'document_type' => ['required', 'string', 'max:255'],
             'document' => ['required', 'string', 'max:255'],
             'country' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'phoneNumber' => ['required', 'string', 'max:255'],
+            'phone_number' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -68,18 +69,31 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(array $data): User
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'lastName' => $data['lastName'],
-            'document_type' => $data['document_type'],
-            'document' => $data['document'],
-            'country' => $data['country'],
-            'address' => $data['address'],
-            'phoneNumber' => $data['phoneNumber'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $documentTypes = DB::table('document_types')
+            ->select('id')
+            ->where('name', $data['document_type'])
+            ->get();
+
+        $countries = DB::table('countries')
+            ->select('id')
+            ->where('name', '=', $data['country'])
+            ->get();
+
+        $user = new User();
+        $user->name = $data['name'];
+        $user->last_name = $data['last_name'];
+        $user->id_document_type = $documentTypes;
+        $user->document = $data['document'];
+        $user->id_country = $countries[0]->id;
+        $user->address = $data['address'];
+        $user->phone_number = $data['phone_number'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+        $user->save();
+        $user->assignRole('customer');
+
+        return $user;
     }
 }

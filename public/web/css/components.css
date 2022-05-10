@@ -35,7 +35,7 @@
  * 	  1.30 Weather
  * 	  1.31 Weather Icon
  * 	  1.32 PWStrength
- * 	  1.33 Product
+ * 	  1.33 product
  * 	  1.34 Ticket
  * 	  1.35 Owl Carousel
  * 	  1.36 Activities
@@ -1179,7 +1179,7 @@ tr:first-child > td > .fc-day-grid-event {
 .pw-very-strong .label {
   color: #0d0; }
 
-/* 1.33 Product */
+/* 1.33 product */
 .product-item {
   text-align: center; }
   .product-item .product-image {

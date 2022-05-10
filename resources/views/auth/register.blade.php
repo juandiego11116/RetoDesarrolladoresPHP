@@ -26,15 +26,15 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="lastName">Last Name:</label><span
+                            <label for="last_name">Last Name:</label><span
                                 class="text-danger">*</span>
-                            <input id="lastName" type="text"
-                                   class="form-control{{ $errors->has('lastName') ? ' is-invalid' : '' }}"
-                                   name="lastName"
-                                   tabindex="1" placeholder="Enter Last Name" value="{{ old('lastName') }}"
+                            <input id="last_name" type="text"
+                                   class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}"
+                                   name="last_name"
+                                   tabindex="1" placeholder="Enter Last Name" value="{{ old('last_name') }}"
                                    autofocus required>
                             <div class="inval   id-feedback">
-                                {{ $errors->first('lastName') }}
+                                {{ $errors->first('last_name') }}
                             </div>
                         </div>
                     </div>
@@ -42,11 +42,15 @@
                         <div class="form-group">
                             <label for="document_type">Document Type:</label><span
                                 class="text-danger">*</span>
-                                <input id="document_type" type="text"
+                                <select id="document_type" type="text"
                                    class="form-control{{ $errors->has('document_type') ? ' is-invalid' : '' }}"
                                    name="document_type"
+
                                    tabindex="1" placeholder="Enter Document Type" value="{{ old('document_type') }}"
                                    autofocus required>
+                                    <option>Cedula de Ciudadania</option>
+                                    <option>Passport</option>
+                                </select>
                             <div class="invalid-feedback">
                                 {{ $errors->first('document_type') }}
                             </div>
@@ -70,11 +74,15 @@
                         <div class="form-group">
                             <label for="country">Country:</label><span
                                 class="text-danger">*</span>
-                            <input id="country" type="text"
+                            <select id="country" type="text"
                                    class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}"
                                    name="country"
                                    tabindex="1" placeholder="Enter Country" value="{{ old('country') }}"
-                                   autofocus required>
+                                    autofocus required>
+                                <option>Colombia</option>
+                                <option>Ecuador</option>
+                                <option>Peru</option>
+                            </select>
                             <div class="invalid-feedback">
                                 {{ $errors->first('country') }}
                             </div>
@@ -96,15 +104,15 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="phoneNumber">Phone Number:</label><span
+                            <label for="phone_number">Phone Number:</label><span
                                 class="text-danger">*</span>
-                            <input id="phoneNumber" type="text"
-                                   class="form-control{{ $errors->has('phoneNumber') ? ' is-invalid' : '' }}"
-                                   name="phoneNumber"
-                                   tabindex="1" placeholder="Enter Phone Number" value="{{ old('phoneNumber') }}"
+                            <input id="phone_number" type="tel"
+                                   class="form-control{{ $errors->has('phone_number') ? ' is-invalid' : '' }}"
+                                   name="phone_number"
+                                   tabindex="1" placeholder="Enter Phone Number" value="{{ old('phone_number') }}"
                                    autofocus required>
                             <div class="invalid-feedback">
-                                {{ $errors->first('phoneNumber') }}
+                                {{ $errors->first('phone_number') }}
                             </div>
                         </div>
                     </div>
