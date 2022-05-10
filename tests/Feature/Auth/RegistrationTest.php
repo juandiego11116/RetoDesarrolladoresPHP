@@ -21,12 +21,12 @@ class RegistrationTest extends TestCase
     {
         $response = $this->post('/register', [
             'name' => 'Test User',
-            'lastName' => 'Test',
-            'document_type' => 'cc',
+            'last_name' => 'Test',
+            'id_document_type' => '1',
             'document' => '1010101010',
-            'country' => 'Colombia',
+            'id_country' => '1',
             'address' => 'Calle',
-            'phoneNumber' => '3200000000',
+            'phone_number' => '3200000000',
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
@@ -34,13 +34,14 @@ class RegistrationTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'name' => 'Test User',
-            'lastName' => 'Test',
-            'document_type' => 'cc',
+            'last_name' => 'Test',
+            'id_document_type' => '1',
             'document' => '1010101010',
-            'country' => 'Colombia',
+            'id_country' => '1',
             'address' => 'Calle',
-            'phoneNumber' => '3200000000',
+            'phone_number' => '3200000000',
             'email' => 'test@example.com',
+            'password' => 'password',
         ]);
         $response->assertRedirect(RouteServiceProvider::HOME);
     }

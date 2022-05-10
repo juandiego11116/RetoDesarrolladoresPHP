@@ -48,13 +48,9 @@
 
                                    tabindex="1" placeholder="Enter Document Type" value="{{ old('document_type') }}"
                                    autofocus required>
-                                    <option>CC</option>
-                                    <option>PAS</option>
-                                    <option>TI</option>
-
+                                    <option>Cedula de Ciudadania</option>
+                                    <option>Passport</option>
                                 </select>
-
-
                             <div class="invalid-feedback">
                                 {{ $errors->first('document_type') }}
                             </div>

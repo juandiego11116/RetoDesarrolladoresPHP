@@ -5,6 +5,7 @@
     <section class="section">
         <div class="section-header">
             <h3 class="page__heading">Crear Products</h3>
+
         </div>
         <div class="section-body">
             <div class="row">
@@ -24,13 +25,12 @@
                                 </div>
                             @endif
 
-                            <form action="{{ route('products.store') }}" method="POST">
+                            <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <div class="form-group">
-                                            <label for="photo">Photo</label>
-                                            <input type="text" name="photo" class="form-control">
+                                        <div id="div_file" class="form-group">
+                                            <input type="file" id="add-photo" name="photo" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -42,7 +42,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="price">Price</label>
-                                            <input type="number" name="price" class="form-control">
+                                            <input type="number" step="0.01" name="price" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -54,17 +54,34 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="category">Category</label>
-                                            <input type="text" name="category" class="form-control">
+                                            <select type="text" name="id_category" class="form-control">
+                                                <option></option>
+                                                @foreach($categories as $category)
+                                                    <option>{{$category->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <div class="form-floating">
+                                        <div class="form-group">
                                             <label for="description">Description</label>
                                             <textarea class="form-control" name="description" style="height: 100px"></textarea>
-
                                         </div>
+                                    </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                            <div class="form-group">
+                                                <label for="visible">Visible</label>
+                                                <select type="text" name="visible" class="form-control">
+                                                    <option></option>
+                                                    <option>Yes</option>
+                                                    <option>No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    <div>
                                         <button type="submit" class="btn btn-primary">Save</button>
                                     </div>
+
                                 </div>
                             </form>
 

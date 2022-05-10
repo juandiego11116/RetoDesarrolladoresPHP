@@ -20,7 +20,7 @@
                                                 use App\Models\User;
                                                $amount_users = User::count();
                                             @endphp
-                                            <h2 class="text-right"><i class="fa fa-users f-left"></i><span>{{$amount_users}}</span></h2>
+                                            <h2 class="text-right"><em class="fa fa-users f-left"></em><span>{{$amount_users}}</span></h2>
                                             <p class="m-b-0 text-right"><a href="/users" class="text-white">More</a></p>
                                         </div>
                                     </div>
@@ -34,7 +34,7 @@
                                                 use Spatie\Permission\Models\Role;
                                                  $amount_roles = Role::count();
                                             @endphp
-                                            <h2 class="text-right"><i class="fa fa-user-lock f-left"></i><span>{{$amount_roles}}</span></h2>
+                                            <h2 class="text-right"><em class="fa fa-user-lock f-left"></em><span>{{$amount_roles}}</span></h2>
                                             <p class="m-b-0 text-right"><a href="/roles" class="text-white">More</a></p>
                                         </div>
                                     </div>
@@ -45,10 +45,10 @@
                                         <div class="card-block">
                                             <h5>Products</h5>
                                             @php
-                                                use App\Models\product;
-                                               $amount_products = product::count();
+                                                use App\Models\Product;
+                                               $amount_products = Product::count();
                                             @endphp
-                                            <h2 class="text-right"><i class="fa fa-layer-group f-left"></i><span>{{$amount_products}}</span></h2>
+                                            <h2 class="text-right"><em class="fa fa-layer-group f-left"></em><span>{{$amount_products}}</span></h2>
                                             <p class="m-b-0 text-right"><a href="/products" class="text-white">More</a></p>
                                         </div>
                                     </div>

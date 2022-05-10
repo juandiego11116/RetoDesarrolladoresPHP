@@ -2,53 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Purchase;
+use App\Models\Product;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class PurchaseController extends Controller
 {
-    public function __construct()
+    public function show(int $purchase): View
     {
-        $this->middleware('permission:show-product|create-product|edit-product|delete-product', ['only'=>['index']]);
-        $this->middleware('permission:create-product', ['only'=>['create','store']]);
-        $this->middleware('permission:edit-product', ['only'=>['edit','update']]);
-        $this->middleware('permission:delete-product', ['only'=>['destroy']]);
+        $purchases = DB::table('purchases')
+            ->select('id', 'id_request', 'total', 'status', 'deduct_from_stock', 'reference')
+            ->where('id', $purchase)
+            ->get();
+
+        $reference = $purchases[0]->reference;
+
+        $products = DB::table('purchase_product')
+            ->join('products', 'purchase_product.product_id', '=', 'products.id')
+            ->select('products.id', 'products.name', 'purchase_product.amount', 'purchase_product.subtotal', 'purchase_product.price', 'products.stock_number')
+            ->where('purchase_id', $purchases[0]->id)
+            ->get();
+
+        return view('purchases.show', compact('purchases', 'products', 'reference'));
     }
 
-    public function index(Request $request)
+    public function history(Request $request): View
     {
         $text = trim($request->get('text'));
-        $products = DB::table('products')
-            ->select('id', 'name', 'price', 'stock_number', 'category')
-            ->where('name', 'LIKE', '%'.$text.'%')
-            ->orWhere('price', 'LIKE', '%'.$text.'%')
-            ->orWhere('stock_number', 'LIKE', '%'.$text.'%')
-            ->orWhere('category', 'LIKE', '%'.$text.'%')
-            ->orderBy('name', 'asc')
+
+        $purchases = DB::table('purchases')
+            ->select('id', 'reference', 'total', 'status')
+            ->where('total', 'LIKE', '%'.$text.'%')
+            ->orWhere('reference', 'LIKE', '%'.$text.'%')
+            ->orWhere('status', 'LIKE', '%'.$text.'%')
+            ->orderBy('status', 'asc')
             ->paginate(5);
-        return view('purchases.index', compact('products', 'text'));
+
+        return view('purchases.history', compact('purchases', 'text'));
     }
-    public function create(Request $request)
-    {
-
-        $input = $request->get('product');
-
-        $product = DB::table('products')
-            ->select('id', 'name', 'price')
-            ->where('id', 'LIKE', '%'.$input.'%')
-            ->orderBy('name', 'asc')
-            ->paginate(5);
-        dump($product);
-        return view('purchases.cart', compact('product', 'input'));
-    }
-    public function addToCart(Request $request)
-    {
-        $product = ProductController::find($request->product);
-
-        return view('purchases.cart', compact('product'));
-
-    }
-
-
 }

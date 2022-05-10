@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -16,18 +19,27 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use HasRoles;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
-    //const document_type = array('CC', 'TI', 'PAS');
+    public function scopeSearch(Builder $query, $search): Builder
+    {
+        if ($search) {
+            return $query->where('name', 'LIKE', "%$search%");
+        }
+        return $query;
+    }
+    public function countries(): HasOne
+    {
+        return $this->hasOne(Country::class);
+    }
+    public function documentType(): HasOne
+    {
+        return $this->hasOne(DocumentType::class);
+    }
     protected $fillable = [
         'name',
         'last_name',
-        'document_type',
+        'id_document_type',
         'document',
-        'country',
+        'id_country',
         'address',
         'phone_number',
         'email',

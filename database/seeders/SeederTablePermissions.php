@@ -7,16 +7,11 @@ use Spatie\Permission\Models\Permission;
 
 class SeederTablePermissions extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $permissions = [
             //roles permissions
-           /* 'show-role',
+            'show-role',
             'create-role',
             'edit-role',
             'delete-role',
@@ -24,7 +19,7 @@ class SeederTablePermissions extends Seeder
             'show-product',
             'create-product',
             'edit-product',
-            'delete-product',*/
+            'delete-product',
             //user permissions
             'show-user',
             'create-user',
