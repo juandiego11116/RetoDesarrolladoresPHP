@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RolController;
@@ -37,6 +38,13 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::resource('roles', RolController::class);
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
+    Route::get('reports/index', [ReportController::class, 'index'])->name('reports.index');
+    Route::post('reports/import/new/product', [ReportController::class, 'newProductImport'])
+        ->name('reports.import.new.product');
+    Route::post('reports/import/update/product', [ReportController::class, 'updateProductImport'])
+        ->name('reports.import.update.product');
+    Route::get('reports/export/', [ReportController::class, 'exportProducts'])->name('reports.export');
+    Route::get('reports/sale/', [ReportController::class, 'exportSale'])->name('reports.sale');
 });
 
 Route::group(['middleware' => ['auth', 'role:customer']], function () {
