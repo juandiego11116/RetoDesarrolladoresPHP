@@ -45,7 +45,7 @@ class ReportControllerTest extends TestCase
         Storage::fake('products');
         $file = new File('tests\Feature\stubs\products-import.cvs');
 
-        $response =  $this->actingAs($user)
+        $this->actingAs($user)
             ->post(route('reports/import/product'), $file);
 
         $path = base_path('tests\Feature\stubs');
