@@ -39,10 +39,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
     Route::get('reports/index', [ReportController::class, 'index'])->name('reports.index');
-    Route::post('reports/import/new/product', [ReportController::class, 'newProductImport'])
-        ->name('reports.import.new.product');
-    Route::post('reports/import/update/product', [ReportController::class, 'updateProductImport'])
-        ->name('reports.import.update.product');
+    Route::post('reports/import/product', [ReportController::class, 'ProductImport'])
+        ->name('reports.import.product');
     Route::get('reports/export/', [ReportController::class, 'exportProducts'])->name('reports.export');
     Route::get('reports/sale/', [ReportController::class, 'exportSale'])->name('reports.sale');
 });
