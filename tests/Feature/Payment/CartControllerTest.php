@@ -105,6 +105,7 @@ class CartControllerTest extends TestCase
             ->post(route('cart.delete'), ['rowId' => $cart->first()->rowId]);
 
         $response->assertRedirect();
+
     }
 
     public function testUpdateProductFromCart(): void
