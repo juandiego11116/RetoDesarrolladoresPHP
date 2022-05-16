@@ -11,18 +11,9 @@
                 <div class="col-lg-12">
                     <div class="card">
 
+
                         <div>
-                            <form action="{{route('reports.import.new.product')}}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <div id="div_file" class="form-group">
-                                    <label for="name">Import New Products</label>
-                                    <input type="file" id="file" name="file" class="form-control">
-                                    <button type="submit" class="btn btn-primary">Load</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div>
-                            <form action="{{route('reports.import.update.product')}}" method="POST" enctype="multipart/form-data">
+                            <form action="{{route('reports.import.product')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div id="div_file" class="form-group">
                                     <label for="name">Import Update Products</label>
