@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductCollection;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -10,13 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function index(): Collection
+    public function index():ProductCollection
     {
-        $articulos = Product::all();
-        return $articulos;
+        $products = ProductCollection::make(Product::all());
+        return $products;
     }
 
-    public function store(Request $request): Product
+    public function store(Request $request):ProductResource
     {
         $request->validate([
             'name' => 'required',
@@ -50,9 +52,9 @@ class ProductController extends Controller
         $product->visible = $visible;
         $product->save();
 
-        return $product;
+        return ProductResource::make($product);
     }
-    public function update(Request $request): Product
+    public function update(Request $request): ProductResource
     {
         if ($request->input('visible') == 'Yes') {
             $request['visible'] = true;
@@ -77,13 +79,13 @@ class ProductController extends Controller
             'photo',
             'visible',
         ));
-        return $product;
+        return ProductResource::make($product);
     }
 
     public function destroy(Request $request): Collection
     {
         Product::destroy($request->id);
-        $articulo = Product::all();
-        return $articulo;
+        $products = Product::all();
+        return $products;
     }
 }

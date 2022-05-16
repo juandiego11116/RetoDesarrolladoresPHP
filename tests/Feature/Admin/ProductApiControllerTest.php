@@ -67,7 +67,6 @@ class ProductApiControllerTest extends TestCase
         ]);
 
         $response
-            ->assertOk()
             ->assertJson([
                 'data' => true,
             ]);
