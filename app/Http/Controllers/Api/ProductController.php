@@ -14,8 +14,7 @@ class ProductController extends Controller
 {
     public function index():ProductCollection
     {
-        $products = ProductCollection::make(Product::all());
-        return $products;
+        return ProductCollection::make(Product::all());;
     }
 
     public function store(Request $request):ProductResource
@@ -85,7 +84,7 @@ class ProductController extends Controller
     public function destroy(Request $request): Collection
     {
         Product::destroy($request->id);
-        $products = Product::all();
-        return $products;
+        
+        return Product::all();
     }
 }
