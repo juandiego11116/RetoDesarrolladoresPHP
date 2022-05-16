@@ -45,26 +45,10 @@ class ReportControllerTest extends TestCase
         Storage::fake('products');
         $file = new File('tests\Feature\stubs\products-import.cvs');
 
-        /*$response = $this->actingAs($user)->json('POST', 'reports/import/product', [
-            'products' => UploadedFile::fake()->create('products-import.cvs')
-        ]);*/
         $response =  $this->actingAs($user)
             ->post(route('reports/import/product'), $file);
-        dd($response);
+
         $path = base_path('tests\Feature\stubs');
         Storage::disk('products')->assertExists($path, 'products-import.cvs');
-
-
-        /*
-
-
-        Excel::assertQueued('products-import.cvs', 'local');*/
-
-        //$path = base_path('tests\Feature\stubs\products-import.cvs');
-        //$importFile = new UploadedFile($path, 'products-import.cvs', null, null, true);
-
-        //$this->post('reports/import/product', ['file' => $importFile]);
-
-        //$this->assertDatabaseHas('products', ['name' => 'Guayaba', 'stock_number' => 1000]);
     }
 }
