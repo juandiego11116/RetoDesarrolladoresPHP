@@ -12,6 +12,9 @@
         <a class="nav-link" href="/products">
             <i class=" fas fa-layer-group"></i><span>Products</span>
         </a>
+        <a class="nav-link" href="/reports/index">
+            <em class=" fas fa-file"></em><span>Reports</span>
+        </a>
     </li>
 @endrole
 
