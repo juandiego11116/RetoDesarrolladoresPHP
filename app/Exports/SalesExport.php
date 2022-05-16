@@ -14,7 +14,7 @@ class SalesExport implements FromCollection
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function collection():Collection
+    public function collection(): Collection
     {
         return Purchase::select('id', 'reference', 'total', 'status')
             ->where('status', PaymentStatus::APPROVED)

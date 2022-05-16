@@ -11,7 +11,7 @@ class ProductApiControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testGetJson():void
+    public function testGetJson(): void
     {
         Product::factory()->count(2)->create();
         $response = $this->getJson('api/products');
@@ -35,21 +35,24 @@ class ProductApiControllerTest extends TestCase
             ]);
     }
 
-    public function testGetProduct():void
+    public function testGetProduct(): void
     {
         $product = Product::factory()->count(1)->create();
         $response = $this->getJson('api/products');
 
         $response
-            ->assertJson(fn (AssertableJson $json) =>
+            ->assertJson(
+                fn (AssertableJson $json) =>
             $json->has('data')
-                ->has('data.0', fn ($json) =>
+                ->has(
+                    'data.0',
+                    fn ($json) =>
                 $json->where('id', $product->toArray()[0]['id'])
                     ->etc()
                 )
             );
     }
-    public function testStoreProduct():void
+    public function testStoreProduct(): void
     {
         $product = Product::factory()->make();
 
@@ -74,7 +77,7 @@ class ProductApiControllerTest extends TestCase
         ]);
     }
 
-    public function testUpdateProduct():void
+    public function testUpdateProduct(): void
     {
         $product = Product::factory()->count(1)->create();
 
@@ -95,7 +98,7 @@ class ProductApiControllerTest extends TestCase
         ]);
     }
 
-    public function testDestroyProduct():void
+    public function testDestroyProduct(): void
     {
         $product = Product::factory()->create();
 

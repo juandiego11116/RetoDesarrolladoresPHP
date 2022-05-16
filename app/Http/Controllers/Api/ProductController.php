@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function index():Collection
+    public function index(): Collection
     {
         $articulos = Product::all();
         return $articulos;
     }
 
-    public function store(Request $request):Product
+    public function store(Request $request): Product
     {
         $request->validate([
             'name' => 'required',
@@ -52,9 +52,8 @@ class ProductController extends Controller
 
         return $product;
     }
-    public function update(Request $request):Product
+    public function update(Request $request): Product
     {
-
         if ($request->input('visible') == 'Yes') {
             $request['visible'] = true;
         } else {
@@ -81,7 +80,7 @@ class ProductController extends Controller
         return $product;
     }
 
-    public function destroy(Request $request):Collection
+    public function destroy(Request $request): Collection
     {
         Product::destroy($request->id);
         $articulo = Product::all();

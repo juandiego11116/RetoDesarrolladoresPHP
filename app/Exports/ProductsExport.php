@@ -34,7 +34,7 @@ class ProductsExport implements FromCollection, WithHeadings, FromQuery, ShouldQ
         ];
     }
 
-    public function query():Collection
+    public function query(): Collection
     {
         return Product::query('id', 'name', 'price', 'stock_number', 'id_category', 'description', 'visible')
             ->get();

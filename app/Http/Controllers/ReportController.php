@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ReportController extends Controller
 {
-    public function index():View
+    public function index(): View
     {
         return view('reports.index');
     }

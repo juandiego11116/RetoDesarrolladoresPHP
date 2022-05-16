@@ -19,7 +19,7 @@ class ReportControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testGoToIndex():void
+    public function testGoToIndex(): void
     {
         $this->seed(SeederTablePermissions::class);
         $this->seed(RolesTableSeeder::class);
@@ -34,7 +34,7 @@ class ReportControllerTest extends TestCase
         $response->assertViewIs('reports.index');
     }
 
-    public function testImportProduct():void
+    public function testImportProduct(): void
     {
         $this->seed(SeederTablePermissions::class);
         $this->seed(RolesTableSeeder::class);
