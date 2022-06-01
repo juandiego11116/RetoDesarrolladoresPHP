@@ -17,6 +17,7 @@ class CartController extends Controller
 
         return back();
     }
+
     public function index()
     {
         $products =  Cart::content();

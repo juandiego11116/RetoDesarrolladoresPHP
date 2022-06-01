@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function index():ProductCollection
+    public function index(): ProductCollection
     {
         return ProductCollection::make(Product::all());
     }
 
-    public function store(Request $request):ProductResource
+    public function store(Request $request): ProductResource
     {
         $request->validate([
             'name' => 'required',
