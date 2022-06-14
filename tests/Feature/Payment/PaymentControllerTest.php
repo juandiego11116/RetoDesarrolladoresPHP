@@ -14,6 +14,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use PhpParser\Node\Stmt\DeclareDeclare;
 use Tests\TestCase;
 
 class PaymentControllerTest extends TestCase
@@ -92,6 +93,43 @@ class PaymentControllerTest extends TestCase
             ->get(route('payment.finish', ['reference' => $purchase->reference]));
 
         $response->assertViewIs('purchases.finish');
+    }
+
+    public function testFinishTransaction():void
+    {
+        $processUrl = 'https://checkout-co.placetopay.com/session/1/cc9b8690b1f7228c78b759ce27d7e80a';
+        $payResponse = [
+            "status" => [
+                "status" => "OK",
+                "reason"=> "PC",
+                "message"=> "La petición se ha procesado correctamente",
+                "date" => "2021-11-30T15:08:27-05:00"
+            ],
+            "requestId" => 1,
+            "processUrl" => $processUrl,
+        ];
+
+        Http::fake(function ($request) use ($payResponse) {
+            return Http::response(json_encode($payResponse), 200);
+        });
+        $this->seed(RolesTableSeeder::class);
+        $user = User::factory()->create();
+        $product = Product::factory()->create();
+
+        $user->assignRole('customer');
+        Cart::add([
+            'id' => $product->id,
+            'name' => $product->name,
+            'qty' => 1,
+            'price' => $product->price,
+        ]);
+
+        $response = $this->actingAs($user)
+            ->post(route('payment.store'), ['total' => $product->price]);
+
+        $purchase = Purchase::first();
+        dd($purchase);
+
     }
 
     public function createSectionForBuyProduct()
